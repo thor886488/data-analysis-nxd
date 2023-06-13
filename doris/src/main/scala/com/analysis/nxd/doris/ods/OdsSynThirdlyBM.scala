@@ -238,10 +238,17 @@ object OdsSynThirdlyBM {
          |""".stripMargin
     val sql_ods_bm_yabo_platform_orders_detail =
       s"""
-         insert into  ods_bm_yabo_platform_orders_detail
+         |insert into  ods_bm_yabo_platform_orders_detail
          |SELECT  create_time,'BM' site_code,'YABO' thirdly_code,order_no,id,player_id,player_name,nick_name,agent_id,agent_code,agent_name,bet_amount,valid_bet_amount,net_amount,pay_amount,before_amount,created_at,net_at,recalcu_at,updated_at,game_type_id,game_type_name,platform_id,platform_name,bet_status,bet_flag,bet_point_id,bet_point_name,judge_result,currency,table_code,table_name,dealer_name,round_no,boot_no,login_ip,device_type,device_id,record_type,game_mode,signature,addstr1,addstr2,startid,created_at8,modify_time
          |from  syn_bm_yabo_platform_orders_detail
          |where (modify_time>='$startTime' and  modify_time<='$endTime')
+         |""".stripMargin
+
+    val sql_ods_bm_platform_games_list =
+      s"""
+         |INSERT INTO  ods_bm_platform_games_list
+         |SELECT id,'BM' AS site_code,platform,NAME,CODE,code_num,TYPE,is_pc,is_h5,is_ios,is_android,is_hot,is_best,is_open,created_at,updated_at
+         |FROM syn_mysql_bm_platform_games_list
          |""".stripMargin
 
     JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")
@@ -249,6 +256,7 @@ object OdsSynThirdlyBM {
     if (isDeleteData) {
       JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_ods_bm_platform_orders", s"delete from  ods_bm_platform_orders  where    site_code='BM' and (game_start_time>='$startTime' and  game_start_time<='$endTime')")
       JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_ods_bm_platform_orders_detail", s"delete from  ods_bm_platform_orders_detail  where    site_code='BM' and (create_time>='$startTime' and  create_time<='$endTime')")
+      JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_ods_bm_platform_games_list", s"delete from  ods_bm_platform_games_list  where    site_code='BM' ")
 
     }
 
@@ -283,6 +291,9 @@ object OdsSynThirdlyBM {
     JdbcUtils.execute(conn, "sql_ods_bm_shaba_platform_orders_detail", sql_ods_bm_shaba_platform_orders_detail)
     JdbcUtils.execute(conn, "sql_ods_bm_tcg_platform_orders_detail", sql_ods_bm_tcg_platform_orders_detail)
     JdbcUtils.execute(conn, "sql_ods_bm_yabo_platform_orders_detail", sql_ods_bm_yabo_platform_orders_detail)
+
+    // 明细同步
+    JdbcUtils.execute(conn, "sql_ods_bm_platform_games_list", sql_ods_bm_platform_games_list)
 
     val end = System.currentTimeMillis()
     logger.info("BM站 三方数据同步累计耗时(毫秒):" + (end - start))
@@ -387,32 +398,36 @@ object OdsSynThirdlyBM {
 
     val sql_syn_bm_bbin_platform_orders_detail = s"select   count(1) countData  from syn_bm_bbin_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
     val sql_ods_bm_bbin_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_bbin_platform_orders_detail where thirdly_code='BBIN' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_bbin_platform_orders_detail_detail", sql_syn_bm_bbin_platform_orders_detail, sql_ods_bm_bbin_platform_orders_detail, conn)
+    VerifyDataUtils.verifyData("sql_ods_bm_bbin_platform_orders_detail", sql_syn_bm_bbin_platform_orders_detail, sql_ods_bm_bbin_platform_orders_detail, conn)
 
-    val sql_syn_bm_bg_platform_orders_detail = s"select   count(1) countData  from syn_bm_bg_platform_orders_detail_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    val sql_ods_bm_bg_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_bg_platform_orders_detail_detail where thirdly_code='BG' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_bg_platform_orders_detail_detail", sql_syn_bm_bg_platform_orders_detail, sql_ods_bm_bg_platform_orders_detail, conn)
+    val sql_syn_bm_bg_platform_orders_detail = s"select   count(1) countData  from syn_bm_bg_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    val sql_ods_bm_bg_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_bg_platform_orders_detail where thirdly_code='BG' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    VerifyDataUtils.verifyData("sql_ods_bm_bg_platform_orders_detail", sql_syn_bm_bg_platform_orders_detail, sql_ods_bm_bg_platform_orders_detail, conn)
 
 
-    val sql_syn_bm_bl_platform_orders_detail = s"select   count(1) countData  from syn_bm_bl_platform_orders_detail_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    val sql_ods_bm_bl_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_bl_platform_orders_detail_detail where thirdly_code='BL' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_bl_platform_orders_detail_detail", sql_syn_bm_bl_platform_orders_detail, sql_ods_bm_bl_platform_orders_detail, conn)
+    val sql_syn_bm_bl_platform_orders_detail = s"select   count(1) countData  from syn_bm_bl_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    val sql_ods_bm_bl_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_bl_platform_orders_detail where thirdly_code='BL' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    VerifyDataUtils.verifyData("sql_ods_bm_bl_platform_orders_detail", sql_syn_bm_bl_platform_orders_detail, sql_ods_bm_bl_platform_orders_detail, conn)
 
-    val sql_syn_bm_ky_platform_orders_detail = s"select   count(1) countData  from syn_bm_ky_platform_orders_detail_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    val sql_ods_bm_ky_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_ky_platform_orders_detail_detail where thirdly_code='KY' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_ky_platform_orders_detail_detail", sql_syn_bm_ky_platform_orders_detail, sql_ods_bm_ky_platform_orders_detail, conn)
+    val sql_syn_bm_ky_platform_orders_detail = s"select   count(1) countData  from syn_bm_ky_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    val sql_ods_bm_ky_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_ky_platform_orders_detail where thirdly_code='KY' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    VerifyDataUtils.verifyData("sql_ods_bm_ky_platform_orders_detail", sql_syn_bm_ky_platform_orders_detail, sql_ods_bm_ky_platform_orders_detail, conn)
 
-    val sql_syn_bm_qipai_platform_orders_detail = s"select   count(1) countData  from syn_bm_qipai_platform_orders_detail_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    val sql_ods_bm_qipai_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_qipai_platform_orders_detail_detail where thirdly_code='QIPAI' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_qipai_platform_orders_detail_detail", sql_syn_bm_qipai_platform_orders_detail, sql_ods_bm_qipai_platform_orders_detail, conn)
+    val sql_syn_bm_qipai_platform_orders_detail = s"select   count(1) countData  from syn_bm_qipai_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    val sql_ods_bm_qipai_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_qipai_platform_orders_detail where thirdly_code='QIPAI' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    VerifyDataUtils.verifyData("sql_ods_bm_qipai_platform_orders_detail", sql_syn_bm_qipai_platform_orders_detail, sql_ods_bm_qipai_platform_orders_detail, conn)
 
-    val sql_syn_bm_shaba_platform_orders_detail = s"select   count(1) countData  from syn_bm_shaba_platform_orders_detail_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    val sql_ods_bm_shaba_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_shaba_platform_orders_detail_detail where thirdly_code='SHABA' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_shaba_platform_orders_detail_detail", sql_syn_bm_shaba_platform_orders_detail, sql_ods_bm_shaba_platform_orders_detail, conn)
+    val sql_syn_bm_shaba_platform_orders_detail = s"select   count(1) countData  from syn_bm_shaba_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    val sql_ods_bm_shaba_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_shaba_platform_orders_detail where thirdly_code='SHABA' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    VerifyDataUtils.verifyData("sql_ods_bm_shaba_platform_orders_detail", sql_syn_bm_shaba_platform_orders_detail, sql_ods_bm_shaba_platform_orders_detail, conn)
 
-    val sql_syn_bm_tcg_platform_orders_detail = s"select   count(1) countData  from syn_bm_tcg_platform_orders_detail_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    val sql_ods_bm_tcg_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_tcg_platform_orders_detail_detail where thirdly_code='TCG' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_bm_tcg_platform_orders_detail_detail", sql_syn_bm_tcg_platform_orders_detail, sql_ods_bm_tcg_platform_orders_detail, conn)
+    val sql_syn_bm_tcg_platform_orders_detail = s"select   count(1) countData  from syn_bm_tcg_platform_orders_detail where  game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    val sql_ods_bm_tcg_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_tcg_platform_orders_detail where thirdly_code='TCG' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
+    VerifyDataUtils.verifyData("sql_ods_bm_tcg_platform_orders_detail", sql_syn_bm_tcg_platform_orders_detail, sql_ods_bm_tcg_platform_orders_detail, conn)
+
+    val sql_syn_mysql_bm_platform_games_list = s"select   count(1) countData  from syn_mysql_bm_platform_games_list"
+    val sql_ods_bm_platform_games_list = s"select   count(1) countData  from sql_ods_bm_platform_games_list"
+    VerifyDataUtils.verifyData("sql_ods_bm_platform_games_list", sql_syn_mysql_bm_platform_games_list, sql_ods_bm_platform_games_list, conn)
 
   }
 
