@@ -292,7 +292,7 @@ object OdsSynThirdlyBM {
     JdbcUtils.execute(conn, "sql_ods_bm_tcg_platform_orders_detail", sql_ods_bm_tcg_platform_orders_detail)
     JdbcUtils.execute(conn, "sql_ods_bm_yabo_platform_orders_detail", sql_ods_bm_yabo_platform_orders_detail)
 
-    // 明细同步
+    // 遊戲分類
     JdbcUtils.execute(conn, "sql_ods_bm_platform_games_list", sql_ods_bm_platform_games_list)
 
     val end = System.currentTimeMillis()
