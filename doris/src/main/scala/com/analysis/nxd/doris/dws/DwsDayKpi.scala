@@ -233,7 +233,7 @@ object DwsDayKpi {
          |,sum(if(t_gp2.type_name_gp2 is not  null ,floor(abs(amount)*10000)  *(-1)* pm_available /10000,0)) gp2
          |from
          |dwd_transactions t
-         |join (select distinct  site_code site_code_t,type_code type_code_t,paren_type_code paren_type_code_t,pm_available from dwd_transaction_types ) t_t
+         |left join (select distinct  site_code site_code_t,type_code type_code_t,paren_type_code paren_type_code_t,pm_available from dwd_transaction_types ) t_t
          |on t.site_code=t_t.site_code_t and   t.type_code=t_t.type_code_t
          |left join
          |(
@@ -249,6 +249,7 @@ object DwsDayKpi {
          |) t_gp2 on  t.site_code=t_gp2.site_code_gp2 and  t.type_code=t_gp2.type_code_gp2
          |where    (created_at>='$startTime' and  created_at<='$endTime')
          |and  type_code is  not  null
+         |and ( t_t.site_code_t is not null or t_a_c.site_code_agent_cost is not null or t_gp1_5.site_code_gp1_5 is not null or t_gp2.site_code_gp2  is not null   )
          |group by  DATE_FORMAT(created_at,'%Y-%m-%d'),site_code ,user_id
          |""".stripMargin
 

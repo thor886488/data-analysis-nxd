@@ -329,9 +329,9 @@ object DwsDayThirdlyKpi {
          |,sum(if(t_gp2.type_name_gp2 is not  null ,floor(abs(amount)*10000)  *(-1)* pm_available /10000,0)) gp2
          |from
          |dwd_thirdly_transactions t
-         |join (select distinct  site_code site_code_t,type_code type_code_t,paren_type_code paren_type_code_t from dwd_thirdly_transaction_types ) t_t
+         |left join (select distinct  site_code site_code_t,type_code type_code_t,paren_type_code paren_type_code_t from dwd_thirdly_transaction_types ) t_t
          |on t.site_code=t_t.site_code_t and   t.type_code=t_t.type_code_t
-         |join (select distinct  site_code site_code_t2,type_code type_code_t2,pm_available from doris_dt.dwd_transaction_types ) t_t2
+         |left join (select distinct  site_code site_code_t2,type_code type_code_t2,pm_available from doris_dt.dwd_transaction_types ) t_t2
          |on t.site_code=t_t2.site_code_t2 and   t.type_code=t_t2.type_code_t2
          |left join
          |(
@@ -342,6 +342,7 @@ object DwsDayThirdlyKpi {
          |select  site_code  site_code_gp2,type_code  type_code_gp2,type_name  type_name_gp2 from  dwd_third_transaction_types_gp2
          |) t_gp2 on  t.site_code=t_gp2.site_code_gp2 and  t.type_code=t_gp2.type_code_gp2
          |where    (created_at>='$startTime' and  created_at<='$endTime')
+         |and ( t_t.site_code_t is not null or t_t2.site_code_t2 is not null  or t_gp1_5.site_code_gp1_5 is not null or t_gp2.site_code_gp2  is not null   )
          |group by  DATE_FORMAT(date_sub(created_at,interval 12 HOUR ),'%Y-%m-%d'),site_code ,thirdly_code,user_id
          |""".stripMargin
 
