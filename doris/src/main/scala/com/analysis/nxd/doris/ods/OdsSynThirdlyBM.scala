@@ -256,7 +256,6 @@ object OdsSynThirdlyBM {
     if (isDeleteData) {
       JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_ods_bm_platform_orders", s"delete from  ods_bm_platform_orders  where    site_code='BM' and (game_start_time>='$startTime' and  game_start_time<='$endTime')")
       JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_ods_bm_platform_orders_detail", s"delete from  ods_bm_platform_orders_detail  where    site_code='BM' and (create_time>='$startTime' and  create_time<='$endTime')")
-      JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_ods_bm_platform_games_list", s"delete from  ods_bm_platform_games_list  where    site_code='BM' ")
 
     }
 
