@@ -425,10 +425,6 @@ object OdsSynThirdlyBM {
     val sql_ods_bm_tcg_platform_orders_detail = s"select   count(1) countData  from sql_ods_bm_tcg_platform_orders_detail where thirdly_code='TCG' and game_start_time>='$startTime' and  game_start_time<='$endTime'"
     VerifyDataUtils.verifyData("sql_ods_bm_tcg_platform_orders_detail", sql_syn_bm_tcg_platform_orders_detail, sql_ods_bm_tcg_platform_orders_detail, conn)
 
-    val sql_syn_mysql_bm_platform_games_list = s"select   count(1) countData  from syn_mysql_bm_platform_games_list"
-    val sql_ods_bm_platform_games_list = s"select   count(1) countData  from sql_ods_bm_platform_games_list"
-    VerifyDataUtils.verifyData("sql_ods_bm_platform_games_list", sql_syn_mysql_bm_platform_games_list, sql_ods_bm_platform_games_list, conn)
-
   }
 
   def main(args: Array[String]): Unit = {
