@@ -180,7 +180,7 @@ object DwdAppMain {
     AppHourKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
 
     // 机器人数据推送
-    AppRobot.runData(site_code, startTime, endTime, isDeleteData, conn);
+    // AppRobot.runData(site_code, startTime, endTime, isDeleteData, conn);
     JdbcUtils.close(conn)
   }
 }
