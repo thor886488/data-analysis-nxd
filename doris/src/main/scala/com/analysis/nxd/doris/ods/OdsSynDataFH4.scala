@@ -55,7 +55,8 @@ object OdsSynDataFH4 {
 
     val ids: String = JdbcUtils.queryStr(null, conn, s"select group_concat(',',cast(user_id as string )  )  ids  from   syn_oracle_fh4_user_chain_backup where  (date(create_date)>='$startUpdateTimeP' and  date(create_date)<='$endTimeP')","")
     if (!StringUtils.isNullOrEmpty(ids)) {
-      val ids2: String = "0" + ids + "0";
+      val ids2: String = "0" + ids.replace("ids : ","") + "0";
+      System.out.print(ids2)
       val sql_ods_fh4_user_customer_2 =
         s"""
            |INSERT INTO ods_fh4_user_customer
