@@ -53,10 +53,9 @@ object OdsSynDataFH4 {
     JdbcUtils.execute(conn, "sql_ods_fh4_user_chain_backup", sql_ods_fh4_user_chain_backup)
     JdbcUtils.execute(conn, "sql_ods_fh4_fund", sql_ods_fh4_fund)
 
-    val ids: String = JdbcUtils.queryStr(null, conn, s"select group_concat(',',cast(user_id as string )  )  ids  from   ods_fh4_user_chain_backup where  (create_date>='$startUpdateTimeP' and  create_date<='$endTimeP')","")
+    val ids: String = JdbcUtils.queryListStr(null, conn, s"select user_id from   ods_fh4_user_chain_backup where  (create_date>='$startUpdateTimeP' and  create_date<='$endTimeP')","")
     if (!StringUtils.isNullOrEmpty(ids)) {
-      System.out.print(ids)
-      val ids2: String = "0" + ids.replace("ids : ","") + "0";
+      val ids2: String = ids.substring(1,ids.length);
       System.out.print(ids2)
       val sql_ods_fh4_user_customer_2 =
         s"""

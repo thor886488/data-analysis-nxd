@@ -666,6 +666,46 @@ public class JdbcUtils {
         return ddl;
     }
 
+    /**
+     * 查询数据组装成 map
+     *
+     * @param conn
+     * @param sql
+     * @return
+     * @throws SQLException
+     */
+    public static String queryListStr(String siteCode, Connection conn, String sql, String title) throws SQLException {
+        String sqlExe = sql;
+        if (StringUtils.isNullOrEmpty(siteCode) || siteCode.equals("all")) {
+            // sqlExe 不变
+        } else {
+            if (siteCode.contains(",")) {
+                String siteArr = "'" + siteCode.trim().replaceAll(",", "','") + "'";
+                sqlExe = sqlExe.replace("where  ", "where site_code in (" + siteArr + ")  and ");
+            } else if (siteCode.equals("other")) {
+                sqlExe = sqlExe.replace("where  ", "where site_code in ('Y','F','T','1HZ','1HZ0','2HZN','BM','BM2','FH3')  and ");
+            } else if (siteCode.equals("YFT")) {
+                sqlExe = sqlExe.replace("where  ", "where site_code in ('Y','F','T')  and ");
+            } else if (siteCode.equals("1HZ")) {
+                sqlExe = sqlExe.replace("where  ", "where site_code in ('1HZ0')  and ");
+            } else {
+                sqlExe = sqlExe.replace("where  ", "where site_code ='" + siteCode + "'  and ");
+            }
+        }
+        logger.info(sqlExe);
+        long start = System.currentTimeMillis();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sqlExe);
+        String str = "";
+        while (rs.next()) {
+            str = str + "," + rs.getString(1);
+        }
+        rs.close();
+        stmt.close();
+        long end = System.currentTimeMillis();
+        logger.info("queryStr 执行耗时(毫秒):" + (end - start));
+        return str;
+    }
 
     /**
      * 查询数据组装成 map
