@@ -257,7 +257,8 @@ object OdsSynThirdlyFH4 {
     val sql_ods_fh4_gns_game_list =
       """
         |insert  into   ods_fh4_gns_game_list
-        |select  gns_id,game_name,game_code,hot,hot_img,status,game_img,CREATE_DATE,UPDATE_DATE,FF_ACCOUNT,front_not_show,game_bet_mapping,showType  from  syn_fh4_gns_game_list
+        |select  gns_id,game_name,game_code,hot,hot_img,status,game_img,CREATE_DATE,UPDATE_DATE,FF_ACCOUNT,front_not_show,game_bet_mapping,showType
+        |from  syn_fh4_gns_game_list
         |""".stripMargin
    val sql_ods_fh4_collect_thirdly_bet_record =
       s"""
