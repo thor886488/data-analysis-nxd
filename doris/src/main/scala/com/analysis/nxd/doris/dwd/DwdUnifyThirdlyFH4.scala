@@ -345,7 +345,7 @@ object DwdUnifyThirdlyFH4 {
          |END prize_status
          |,abs(t_b.stake) turnover_amount
          |,abs(t_b.valid_stake) turnover_valid_amount
-         |,(abs(t_b.winlost_amount)+t_b.winlost_amount) prize_amount
+         |,(abs(t_b.valid_stake)+t_b.winlost_amount) prize_amount
          |,t_b.winlost_amount profit_amount
          |,0 room_fee_amount
          |,0 revenue_amount
