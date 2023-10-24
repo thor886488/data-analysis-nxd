@@ -324,7 +324,7 @@ object DwdUnifyThirdlyFH4 {
          |,t_b.thirdly_code
          |,t_u.id user_id
          |,t_u.username username
-         |,t_b.
+         |,t_b.trans_id
          |,t_u.user_chain_names
          |,t_u.is_agent
          |,t_u.is_tester
