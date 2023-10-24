@@ -324,7 +324,7 @@ object DwdUnifyThirdlyFH4 {
          |,t_b.thirdly_code
          |,t_u.id user_id
          |,t_u.username username
-         |,t_b.trans_id
+         |,t_b.
          |,t_u.user_chain_names
          |,t_u.is_agent
          |,t_u.is_tester
@@ -345,7 +345,7 @@ object DwdUnifyThirdlyFH4 {
          |END prize_status
          |,abs(t_b.stake) turnover_amount
          |,abs(t_b.valid_stake) turnover_valid_amount
-         |,(abs(t_b.stake)+t_b.winlost_amount) prize_amount
+         |,(abs(t_b.winlost_amount)+t_b.winlost_amount) prize_amount
          |,t_b.winlost_amount profit_amount
          |,0 room_fee_amount
          |,0 revenue_amount
