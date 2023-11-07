@@ -137,6 +137,7 @@ object DwdAppMain {
       //OdsSynDataFH3.runData(startTime, endTime, isDeleteData, conn)
       DwdUnifyDataFH3.runData(startTime, endTime, isDeleteData, conn)
     }
+    DwdUnifyData.runSettleChangeData(site_code, startTime, endTime, isDeleteData, conn)
 
     //----------------------三方 dws-app --------------------------------
     JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")

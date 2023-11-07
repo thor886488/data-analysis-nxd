@@ -56,6 +56,8 @@ object DwdThirdlyMain {
     } else if ("1HZ".equals(site_code)) {
       DwdUnifyThirdly1HZ.runData(startTime, endTime, isDeleteData, conn)
     }
+    DwdUnifyData.runSettleChangeData(site_code, startTime, endTime, isDeleteData, conn)
+
     JdbcUtils.close(conn)
   }
 }

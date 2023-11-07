@@ -10,8 +10,31 @@ import org.slf4j.LoggerFactory
 object DwdUnifyData {
   val logger = LoggerFactory.getLogger(DwdUnifyData.getClass)
 
-
   /**
+   *
+   * 账变时间变化的数据 重置为0
+   * @param startTimeP
+   * @param endTimeP
+   * @param isDeleteData
+   * @param conn
+   */
+  def runSettleChangeData(siteCode: String, startTimeP: String, endTimeP: String, isDeleteData: Boolean, conn: Connection): Unit = {
+    val startTime = startTimeP
+    val endTime = endTimeP
+    val sql_settle_change=
+      s"""
+        |insert into dwd_thirdly_turnover
+        |SELECT data_time, site_code, thirdly_code, user_id, username, seq_id, user_chain_names, is_agent, is_tester, parent_id, parent_username, user_level, user_created_at, thirdly_user_id, thirdly_username, game_code, game_name, kind_name, prize_status, 0 turnover_amount,0 turnover_valid_amount,0 prize_amount, 0  profit_amount,0 room_fee_amount,0 revenue_amount, game_star_time, game_star_time_4, turnover_time, turnover_time_4, game_end_time, game_end_time_4, settle_time, settle_time_4, data_time_4,is_cancel  from
+        |(
+        |SELECT  * ,ROW_NUMBER() OVER(PARTITION BY site_code, thirdly_code, user_id, seq_id ORDER BY  data_time desc ) rank_time  from  dwd_thirdly_turnover
+        |WHERE     (data_time>='$startTime' and  data_time<='$endTime')
+        |) t where  rank_time>1
+        |""".stripMargin
+    JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")
+    JdbcUtils.executeSite(siteCode, conn, "sql_settle_change", sql_settle_change)
+  }
+
+    /**
    * 首次登陆/首充/首提
    *
    * @param startTimeP

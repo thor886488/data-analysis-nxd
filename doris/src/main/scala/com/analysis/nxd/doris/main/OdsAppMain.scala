@@ -99,7 +99,7 @@ object OdsAppMain {
       OdsSynThirdly1HZ.runData(startTime, endTime, isDeleteData, conn)
       DwdUnifyThirdly1HZ.runData(startTime, endTime, isDeleteData, conn)
     }
-
+    DwdUnifyData.runSettleChangeData(site_code, startTime, endTime, isDeleteData, conn)
     //----------------------自营 ods-dwd--------------------------------
     // ods
     JdbcUtils.execute(conn, "use doris_dt", "use doris_dt")
