@@ -74,7 +74,7 @@ object DwdUnifyData2HZN {
          |,t.issue
          |,t.issue issue_web
          |,t_i.end_time2 issue_date
-         |,if(t_u.user_level>0  and  t.type_id in(54,58,59,66,67), 0,t.amount) as  amount
+         |,if(t_u.user_level>0  and  t.type_id in(54,58,59,67), 0,t.amount) as  amount
          |,t.balance
          |,0 is_first_deposit
          |,0 is_first_withdraw
