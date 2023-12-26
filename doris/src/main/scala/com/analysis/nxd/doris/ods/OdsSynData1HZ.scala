@@ -115,12 +115,13 @@ object OdsSynData1HZ {
          |) ENGINE=ODBC
          |COMMENT "ODBC"
          |PROPERTIES (
-         |"host" = "114.199.77.173",
-         |"port" = "33012",
-         |"user" = "bi_user",
-         |"password" = "KaqfpcK8N!!hUhuzTX",
+         |"host" = "10.5.68.141",
+         |"port" = "3312",
+         |"user" = "bi_select",
+         |"password" = "ishq521s53sd!1",
          |"driver" = "MySQL ODBC 8.0 ANSI Driver",
          |"odbc_type" = "mysql",
+         |"charest" = "utf8",
          |"database" = "hgame",
          |"table" = "$table_name_yesterday"
          |)
