@@ -12,6 +12,15 @@ object OdsSynThirdly2HZN {
   def runData(startTimeP: String, endTimeP: String, isDeleteData: Boolean, conn: Connection): Unit = {
     val startTime = DateUtils.addSecond(startTimeP, -3600 * 12)
     val endTime = endTimeP
+
+    val sql_ods_2hzn_wm_platform_orders =
+      s"""
+         |insert into  ods_2hzn_platform_orders
+         |select  game_start_time,'2HZN' site_code,'WM' thirdly_code,user_id,id,order_no,user_name,platform_username,game_name,game_type,amount,actual_amount,prize,rate,status,status_transfer,status_commission,client,updated_at,created_at,order_type,transfer_amount,detail_id
+         |from  syn_mysql_2hzn_wm_platform_orders
+         |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
+         |""".stripMargin
+
     val sql_ods_2hzn_ag_platform_orders =
       s"""
          |insert into  ods_2hzn_platform_orders
@@ -165,6 +174,8 @@ object OdsSynThirdly2HZN {
     if (isDeleteData) {
       JdbcUtils.executeSiteDeletePartitionMonth(startTime,endTime,"",conn, "sql_del_ods_2hzn_platform_orders", s"delete from  ods_2hzn_platform_orders  where   site_code='2HZN' and (game_start_time>='$startTime' and  game_start_time<='$endTime')")
     }
+
+
     JdbcUtils.execute(conn, "sql_ods_2hzn_bl_platform_orders", sql_ods_2hzn_bl_platform_orders)
     JdbcUtils.execute(conn, "sql_ods_2hzn_pt_platform_orders", sql_ods_2hzn_pt_platform_orders)
     JdbcUtils.execute(conn, "sql_ods_2hzn_bbin_platform_orders", sql_ods_2hzn_bbin_platform_orders)
@@ -185,6 +196,7 @@ object OdsSynThirdly2HZN {
     JdbcUtils.execute(conn, "sql_ods_2hzn_ag_platform_orders_detail", sql_ods_2hzn_ag_platform_orders_detail)
     JdbcUtils.execute(conn, "sql_ods_2hzn_qipai_platform_orders_detail", sql_ods_2hzn_qipai_platform_orders_detail)
     JdbcUtils.execute(conn, "sql_ods_2hzn_user_ranks", sql_ods_2hzn_user_ranks)
+    JdbcUtils.execute(conn, "sql_ods_2hzn_wm_platform_orders", sql_ods_2hzn_wm_platform_orders)
     val end = System.currentTimeMillis()
     logger.info("2HZN站 三方数据同步累计耗时(毫秒):" + (end - start))
   }
