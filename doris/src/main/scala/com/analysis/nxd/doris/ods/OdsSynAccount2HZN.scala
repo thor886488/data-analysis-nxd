@@ -26,7 +26,7 @@ object OdsSynAccount2HZN {
     val sql_ods_2hzn_wm_platform_accounts_log =
       s"""
          |insert into  ods_2hzn_platform_accounts_log
-         |select  now() data_syn_time,'2HZN' site_code,'AG' thirdly_code,user_id,id,platform_id,platform_username,username,parent_id,balance,frozen,amount,transferable,locked,locked_by,status,created_at,updated_at
+         |select  now() data_syn_time,'2HZN' site_code,'WM' thirdly_code,user_id,id,platform_id,platform_username,username,parent_id,balance,frozen,amount,transferable,locked,locked_by,status,created_at,updated_at
          |from  syn_2hzn_wm_platform_accounts
          |""".stripMargin
     val sql_ods_2hzn_ag_platform_accounts_log =
