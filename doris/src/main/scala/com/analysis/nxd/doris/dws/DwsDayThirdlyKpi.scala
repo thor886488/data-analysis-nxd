@@ -208,7 +208,7 @@ object DwsDayThirdlyKpi {
 
     if(siteCode.equals("YFT")){
       startTime = DateUtils.addSecond(startTimeP, -3600 * 15)
-      endTime = DateUtils.addSecond(endTimeP, 3600 * 15)
+      endTime = DateUtils.addSecond(endTimeP, 3600 * 9)
     }
 
     val startDay = startTime.substring(0, 10)
