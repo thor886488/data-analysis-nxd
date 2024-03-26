@@ -51,14 +51,14 @@ object DwdUnifyThirdlyYft {
          |,0 room_fee_amount
          |,0 revenue_amount
          |,date_add(bet_time,interval 5  hour)
-         |,date_sub(date_add(t_b.bet_time,interval 5  hour),interval 12 HOUR ) bet_time_4
-         |,date_add(date_add(t_b.bet_time,interval 5  hour),interval 12 HOUR ) turnover_time
-         |,date_add(bet_time,interval 5  hour) turnover_time_4
-         |,date_add(bet_time,interval 5  hour) game_end_time
-         |,date_sub(date_add(t_b.bet_time,interval 5  hour),interval 12 HOUR ) game_end_time_4
+         |,date_sub(date_add(t_b.bet_time,interval 8  hour),interval 12 HOUR ) bet_time_4
+         |,date_add(t_b.bet_time,interval 5  hour) turnover_time
+         |,date_sub(date_add(t_b.bet_time,interval 8  hour),interval 12 HOUR ) turnover_time_4
+         |,date_add(bet_time,interval 8  hour) game_end_time
+         |,date_sub(date_add(t_b.bet_time,interval 8  hour),interval 12 HOUR ) game_end_time_4
          |,date_add(bet_time,interval 5  hour) settle_time
-         |,date_add(bet_time,interval 5  hour) settle_time_4
-         |,date_add(t_b.bet_time,interval 5  hour) data_time_4
+         |,date_sub(date_add(t_b.bet_time,interval 8  hour),interval 12 HOUR ) settle_time_4
+         |,date_sub(date_add(t_b.bet_time,interval 8  hour),interval 12 HOUR ) data_time_4
          |, 0 is_cancel
          |from
          |(

@@ -203,8 +203,13 @@ object DwsDayThirdlyKpi {
    */
   def runSub4Data(siteCode: String, startTimeP: String, endTimeP: String, isDeleteData: Boolean, conn: Connection): Unit = {
 
-    val startTime: String = DateUtils.addSecond(startTimeP, -3600 * 12)
-    val endTime = DateUtils.addSecond(endTimeP, 3600 * 12)
+    var startTime: String = DateUtils.addSecond(startTimeP, -3600 * 12)
+    var endTime = DateUtils.addSecond(endTimeP, 3600 * 12)
+
+    if(siteCode.equals("YFT")){
+      startTime = DateUtils.addSecond(startTimeP, -3600 * 15)
+      endTime = DateUtils.addSecond(endTimeP, 3600 * 15)
+    }
 
     val startDay = startTime.substring(0, 10)
     val endDay = endTime.substring(0, 10)
