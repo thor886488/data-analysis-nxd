@@ -345,8 +345,8 @@ object AppProcess {
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_user_withdraw_channel", sql_del_app_process_day_user_withdraw_channel)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_site_withdraw", sql_del_app_process_day_site_withdraw)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_site_withdraw_channel", sql_del_app_process_day_site_withdraw_channel)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_withdraw", sql_del_app_process_day_group_withdraw)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_withdraw_channel", sql_del_app_process_day_group_withdraw_channel)
+     // JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_withdraw", sql_del_app_process_day_group_withdraw)
+      // JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_withdraw_channel", sql_del_app_process_day_group_withdraw_channel)
     }
     //用户
     JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_user_withdraw", sql_app_process_day_user_withdraw)
@@ -358,15 +358,15 @@ object AppProcess {
     JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_site_withdraw_channel", sql_app_process_day_site_withdraw_channel)
 
     //团队
-    val max_group_level_num = JdbcUtils.queryCount("all", conn, "sql_app_day_group_kpi_max", s"select max(user_level) max_user_level from  app_process_day_user_withdraw  where   (data_date>='$startDay' and   data_date<='$endDay') ")
-    for (groupLevelNum <- 2 to max_group_level_num + 3) {
-      Thread.sleep(5000);
-      //团队
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_withdraw_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_withdraw", sql_app_process_day_group_withdraw_base, groupLevelNum))
-      //团队-渠道
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_withdraw_channel_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_withdraw_channel", sql_app_process_day_group_withdraw_channel_base, groupLevelNum))
-
-    }
+//    val max_group_level_num = JdbcUtils.queryCount("all", conn, "sql_app_day_group_kpi_max", s"select max(user_level) max_user_level from  app_process_day_user_withdraw  where   (data_date>='$startDay' and   data_date<='$endDay') ")
+//    for (groupLevelNum <- 2 to max_group_level_num + 3) {
+//      Thread.sleep(5000);
+//      //团队
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_withdraw_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_withdraw", sql_app_process_day_group_withdraw_base, groupLevelNum))
+//      //团队-渠道
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_withdraw_channel_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_withdraw_channel", sql_app_process_day_group_withdraw_channel_base, groupLevelNum))
+//
+//    }
 
     val end = System.currentTimeMillis()
     logger.info(" 提现流程统计累计耗时(毫秒):" + (end - start))
@@ -1062,11 +1062,11 @@ object AppProcess {
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_site_deposit_mode", sql_del_app_process_day_site_deposit_mode)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_site_deposit_platfom", sql_del_app_process_day_site_deposit_platfom)
 
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit", sql_del_app_process_day_group_deposit)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_channel", sql_del_app_process_day_group_deposit_channel)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_mode", sql_del_app_process_day_group_deposit_mode)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_mode_channel", sql_del_app_process_day_group_deposit_mode_channel)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_platfom", sql_del_app_process_day_group_deposit_platfom)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit", sql_del_app_process_day_group_deposit)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_channel", sql_del_app_process_day_group_deposit_channel)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_mode", sql_del_app_process_day_group_deposit_mode)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_mode_channel", sql_del_app_process_day_group_deposit_mode_channel)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_process_day_group_deposit_platfom", sql_del_app_process_day_group_deposit_platfom)
     }
     //用户
     JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_user_deposit", sql_app_process_day_user_deposit)
@@ -1089,21 +1089,21 @@ object AppProcess {
     //站点-设备
     JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_site_deposit_platfom", sql_app_process_day_site_deposit_platfom)
     //团队
-    val max_group_level_num = JdbcUtils.queryCount("all", conn, "sql_app_day_group_kpi_max", s"select max(user_level) max_user_level from  app_process_day_user_deposit  where   (data_date>='$startDay' and   data_date<='$endDay') ")
-    for (groupLevelNum <- 2 to max_group_level_num + 3) {
-      Thread.sleep(5000);
-      //团队
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit", sql_app_process_day_group_deposit_base, groupLevelNum))
-      //团队-渠道
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_channel_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_channel", sql_app_process_day_group_deposit_channel_base, groupLevelNum))
-      //团队-方式
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_mode_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_mode", sql_app_process_day_group_deposit_mode_base, groupLevelNum))
-      //团队-方式-渠道
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_mode_channel_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_mode_channel", sql_app_process_day_group_deposit_mode_channel_base, groupLevelNum))
-      //团队-设备
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_platfom_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_platfom", sql_app_process_day_group_deposit_platfom_base, max_group_level_num))
-
-    }
+//    val max_group_level_num = JdbcUtils.queryCount("all", conn, "sql_app_day_group_kpi_max", s"select max(user_level) max_user_level from  app_process_day_user_deposit  where   (data_date>='$startDay' and   data_date<='$endDay') ")
+//    for (groupLevelNum <- 2 to max_group_level_num + 3) {
+//      Thread.sleep(5000);
+//      //团队
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit", sql_app_process_day_group_deposit_base, groupLevelNum))
+//      //团队-渠道
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_channel_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_channel", sql_app_process_day_group_deposit_channel_base, groupLevelNum))
+//      //团队-方式
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_mode_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_mode", sql_app_process_day_group_deposit_mode_base, groupLevelNum))
+//      //团队-方式-渠道
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_mode_channel_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_mode_channel", sql_app_process_day_group_deposit_mode_channel_base, groupLevelNum))
+//      //团队-设备
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_process_day_group_deposit_platfom_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_process_day_group_deposit_platfom", sql_app_process_day_group_deposit_platfom_base, max_group_level_num))
+//
+//    }
     val end = System.currentTimeMillis()
     logger.info(" 充值流程统计累计耗时(毫秒):" + (end - start))
   }

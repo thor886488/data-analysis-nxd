@@ -1421,11 +1421,11 @@ object AppDayThirdlyKpi {
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_sql_app_third_day_user_kind_flat_kpi", sql_del_sql_app_third_day_user_kind_flat_kpi)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_user_kpi", sql_del_app_third_day_user_kpi)
 
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_game_kpi", sql_del_app_third_day_group_thirdly_game_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_kpi", sql_del_app_third_day_group_thirdly_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_kpi", sql_del_app_third_day_group_kind_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_flat_kpi", sql_del_app_third_day_group_kind_flat_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kpi", sql_del_app_third_day_group_kpi)
+     // JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_game_kpi", sql_del_app_third_day_group_thirdly_game_kpi)
+      //   JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_kpi", sql_del_app_third_day_group_thirdly_kpi)
+      //  JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_kpi", sql_del_app_third_day_group_kind_kpi)
+      //  JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_flat_kpi", sql_del_app_third_day_group_kind_flat_kpi)
+      //   JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kpi", sql_del_app_third_day_group_kpi)
 
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_site_thirdly_game_kpi", sql_del_app_third_day_site_thirdly_game_kpi)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_site_thirdly_kpi", sql_del_app_third_day_site_thirdly_kpi)
@@ -1448,37 +1448,37 @@ object AppDayThirdlyKpi {
     JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_site_kpi", sql_app_third_day_site_kpi)
 
     // 团队维度
-    val max_group_level_num = JdbcUtils.queryCount(siteCode, conn, "sql_app_third_day_user_kpi_group_max", s"select max(user_level) max_user_level from  app_third_day_user_kpi  where    (data_date>='$startDay' and   data_date<='$endDay') ")
-    val days = DateUtils.differentDays(startTime, endTime, DateUtils.DATE_SHORT_FORMAT)
-
-    JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")
-    for (day <- 0 to days) {
-      val runDay = DateUtils.addDay(startDay, day)
-      val runDayStart = runDay + " 00:00:00"
-      val runDayEnd = runDay + " 23:59:59"
-      val sql_app_third_day_group_user_zipper_kpi_base_day = sql_app_third_day_group_user_zipper_kpi_base
-        .replace(startDay, runDay)
-        .replace(endDay, runDay)
-        .replace(startTime, runDayStart)
-        .replace(endTime, runDayEnd)
-      val max_group_level_num_day = JdbcUtils.queryCount(siteCode, conn, "sql_app_third_day_user_kpi_group_max", s"select max(user_level) max_user_level from  app_third_day_user_kpi  where    (data_date>='$runDayStart' and   data_date<='$runDayEnd') ")
-      for (groupLevelNum <- 2 to max_group_level_num_day + 3) {
-        Thread.sleep(5000);
-        JdbcUtils.executeSite(siteCode, conn, "sql_app_day_group_user_zipper_kpi_" + runDay + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("doris_dt.app_day_group_user_zipper_kpi", sql_app_third_day_group_user_zipper_kpi_base_day, groupLevelNum))
-      }
-    }
-    for (groupLevelNum <- 2 to max_group_level_num + 3) {
-      Thread.sleep(5000);
-      // 日-团队-三方-游戏
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_game_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_game_kpi", sql_app_third_day_group_thirdly_game_kpi_base, groupLevelNum))
-      // 日-团队-三方 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_kpi", sql_app_third_day_group_thirdly_kpi_base, groupLevelNum))
-      // 日-团队-三方分类 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_kind_kpi", sql_app_third_day_group_kind_kpi_base, groupLevelNum))
-      // 日-团队 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_kpi", sql_app_third_day_group_kpi_base, groupLevelNum))
-    }
-    JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_kpi", sql_app_third_day_group_kind_flat_kpi)
+//    val max_group_level_num = JdbcUtils.queryCount(siteCode, conn, "sql_app_third_day_user_kpi_group_max", s"select max(user_level) max_user_level from  app_third_day_user_kpi  where    (data_date>='$startDay' and   data_date<='$endDay') ")
+//    val days = DateUtils.differentDays(startTime, endTime, DateUtils.DATE_SHORT_FORMAT)
+//
+//    JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")
+//    for (day <- 0 to days) {
+//      val runDay = DateUtils.addDay(startDay, day)
+//      val runDayStart = runDay + " 00:00:00"
+//      val runDayEnd = runDay + " 23:59:59"
+//      val sql_app_third_day_group_user_zipper_kpi_base_day = sql_app_third_day_group_user_zipper_kpi_base
+//        .replace(startDay, runDay)
+//        .replace(endDay, runDay)
+//        .replace(startTime, runDayStart)
+//        .replace(endTime, runDayEnd)
+//      val max_group_level_num_day = JdbcUtils.queryCount(siteCode, conn, "sql_app_third_day_user_kpi_group_max", s"select max(user_level) max_user_level from  app_third_day_user_kpi  where    (data_date>='$runDayStart' and   data_date<='$runDayEnd') ")
+//      for (groupLevelNum <- 2 to max_group_level_num_day + 3) {
+//        Thread.sleep(5000);
+//        JdbcUtils.executeSite(siteCode, conn, "sql_app_day_group_user_zipper_kpi_" + runDay + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("doris_dt.app_day_group_user_zipper_kpi", sql_app_third_day_group_user_zipper_kpi_base_day, groupLevelNum))
+//      }
+//    }
+//    for (groupLevelNum <- 2 to max_group_level_num + 3) {
+//      Thread.sleep(5000);
+//      // 日-团队-三方-游戏
+//      //   JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_game_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_game_kpi", sql_app_third_day_group_thirdly_game_kpi_base, groupLevelNum))
+//      // 日-团队-三方 盈亏报表
+//      // JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_kpi", sql_app_third_day_group_thirdly_kpi_base, groupLevelNum))
+//      // 日-团队-三方分类 盈亏报表
+//      // JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_kind_kpi", sql_app_third_day_group_kind_kpi_base, groupLevelNum))
+//      // 日-团队 盈亏报表
+//      // JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_kpi", sql_app_third_day_group_kpi_base, groupLevelNum))
+//    }
+//    JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_kpi", sql_app_third_day_group_kind_flat_kpi)
 
   }
 
@@ -2860,11 +2860,11 @@ object AppDayThirdlyKpi {
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_sql_app_third_day_user_kind_flat_4_kpi", sql_del_sql_app_third_day_user_kind_flat_4_kpi)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_user_4_kpi", sql_del_app_third_day_user_4_kpi)
 
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_game_4_kpi", sql_del_app_third_day_group_thirdly_game_4_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_4_kpi", sql_del_app_third_day_group_thirdly_4_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_4_kpi", sql_del_app_third_day_group_kind_4_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_flat_4_kpi", sql_del_app_third_day_group_kind_flat_4_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_4_kpi", sql_del_app_third_day_group_4_kpi)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_game_4_kpi", sql_del_app_third_day_group_thirdly_game_4_kpi)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_thirdly_4_kpi", sql_del_app_third_day_group_thirdly_4_kpi)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_4_kpi", sql_del_app_third_day_group_kind_4_kpi)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_kind_flat_4_kpi", sql_del_app_third_day_group_kind_flat_4_kpi)
+//      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_group_4_kpi", sql_del_app_third_day_group_4_kpi)
 
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_site_thirdly_game_4_kpi", sql_del_app_third_day_site_thirdly_game_4_kpi)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_third_day_site_thirdly_4_kpi", sql_del_app_third_day_site_thirdly_4_kpi)
@@ -2887,21 +2887,21 @@ object AppDayThirdlyKpi {
     JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_site_4_kpi", sql_app_third_day_site_4_kpi)
 
     // 团队维度
-    val max_group_level_num = JdbcUtils.queryCount(siteCode, conn, "sql_app_third_day_user_4_kpi_group_max", s"select max(user_level) max_user_level from  app_third_day_user_4_kpi  where    (data_date>='$startDay' and   data_date<='$endDay') ")
-    for (groupLevelNum <- 2 to max_group_level_num + 3) {
-      Thread.sleep(5000);
-      // 日-团队-三方-游戏 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_game_4_kpi" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_game_4_kpi", sql_app_third_day_group_thirdly_game_4_kpi_base, groupLevelNum))
-      // 日-团队-三方 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_4_kpi" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_4_kpi", sql_app_third_day_group_thirdly_4_kpi_base, groupLevelNum))
-      // 日-团队-三方分类 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_4_kpi_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_kind_4_kpi", sql_app_third_day_group_kind_4_kpi_base, groupLevelNum))
-      // 日-团队 盈亏报表
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_4_kpi" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_4_kpi", sql_app_third_day_group_4_kpi_base, groupLevelNum))
-
-    }
-
-    JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_4_kpi", sql_app_third_day_group_kind_flat_4_kpi)
+//    val max_group_level_num = JdbcUtils.queryCount(siteCode, conn, "sql_app_third_day_user_4_kpi_group_max", s"select max(user_level) max_user_level from  app_third_day_user_4_kpi  where    (data_date>='$startDay' and   data_date<='$endDay') ")
+//    for (groupLevelNum <- 2 to max_group_level_num + 3) {
+//      Thread.sleep(5000);
+//      // 日-团队-三方-游戏 盈亏报表
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_game_4_kpi" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_game_4_kpi", sql_app_third_day_group_thirdly_game_4_kpi_base, groupLevelNum))
+//      // 日-团队-三方 盈亏报表
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_thirdly_4_kpi" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_thirdly_4_kpi", sql_app_third_day_group_thirdly_4_kpi_base, groupLevelNum))
+//      // 日-团队-三方分类 盈亏报表
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_4_kpi_base" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_kind_4_kpi", sql_app_third_day_group_kind_4_kpi_base, groupLevelNum))
+//      // 日-团队 盈亏报表
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_4_kpi" + "_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_third_day_group_4_kpi", sql_app_third_day_group_4_kpi_base, groupLevelNum))
+//
+//    }
+//
+//    JdbcUtils.executeSite(siteCode, conn, "sql_app_third_day_group_kind_4_kpi", sql_app_third_day_group_kind_flat_4_kpi)
   }
 
   def main(args: Array[String]): Unit = {

@@ -34,7 +34,7 @@ object AppThirdlyMain {
 
     AppHourThirdlyKpi.runUserBaseData(site_code, startTime, endTime, isDeleteData, conn)
     AppHourThirdlyKpi.runData(site_code, startTime, endTime, isDeleteData, conn)
-    AppHourThirdlyKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppHourThirdlyKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
     JdbcUtils.close(conn)
   }
 }

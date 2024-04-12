@@ -151,7 +151,7 @@ object DwdAppMain {
     AppDayThirdlyKpi.runData(site_code, startTime, endTime, isDeleteData, conn)
     AppDayThirdlyKpi.runSub4Data(site_code, startTime, endTime, isDeleteData, conn)
     AppHourThirdlyKpi.runData(site_code, startTime, endTime, isDeleteData, conn)
-    AppHourThirdlyKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppHourThirdlyKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
 
     //----------------------自营 dws-app --------------------------------
     JdbcUtils.execute(conn, "use doris_dt", "use doris_dt")
@@ -174,11 +174,11 @@ object DwdAppMain {
     AppUsers.runUserBase(site_code, startTime, endTime, isDeleteData, conn)
 
     // App day  group
-    AppDayKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
-    AppDayKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
-    //app hour group
-    AppHourKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
-    AppHourKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppDayKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppDayKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
+//    //app hour group
+//    AppHourKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppHourKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
 
     // 机器人数据推送
     // AppRobot.runData(site_code, startTime, endTime, isDeleteData, conn);

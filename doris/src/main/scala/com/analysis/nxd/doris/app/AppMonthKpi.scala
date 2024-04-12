@@ -1295,7 +1295,7 @@ object AppMonthKpi {
     JdbcUtils.executeSite(siteCode, conn, "use doris_dt", "use doris_dt")
     if (isDeleteData) {
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_month_user_kpi", sql_del_app_month_user_kpi)
-      JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_month_group_kpi", sql_del_app_month_group_kpi)
+     // JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_month_group_kpi", sql_del_app_month_group_kpi)
       JdbcUtils.executeSiteDeletePartitionMonth(startDay,endDay,siteCode, conn, "sql_del_app_month_site_kpi", sql_del_app_month_site_kpi)
     }
     // 月报-用户盈亏报表
@@ -1304,12 +1304,12 @@ object AppMonthKpi {
     JdbcUtils.executeSite(siteCode, conn, "sql_app_month_site_kpi", sql_app_month_site_kpi)
 
     // 月报-团队盈亏报表
-    val max_group_level_num = JdbcUtils.queryCount(siteCode, conn, "sql_day_group_kpi_max", s"select max(user_level) max_user_level from  app_day_user_kpi  where    (data_date>='$startDay' and   data_date<='$endDay') ")
-    for (groupLevelNum <- 2 to max_group_level_num + 3) {
-      JdbcUtils.executeSite(siteCode, conn, "sql_app_month_group_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_month_group_kpi", sql_app_month_group_kpi_base, groupLevelNum))
-    }
-    val end = System.currentTimeMillis()
-    logger.info("AppMonthKpi runData 累计耗时(秒):" + (end - start))
+//    val max_group_level_num = JdbcUtils.queryCount(siteCode, conn, "sql_day_group_kpi_max", s"select max(user_level) max_user_level from  app_day_user_kpi  where    (data_date>='$startDay' and   data_date<='$endDay') ")
+//    for (groupLevelNum <- 2 to max_group_level_num + 3) {
+//      JdbcUtils.executeSite(siteCode, conn, "sql_app_month_group_kpi_" + (groupLevelNum - 2), AppGroupUtils.concatSqlOnce("app_month_group_kpi", sql_app_month_group_kpi_base, groupLevelNum))
+//    }
+//    val end = System.currentTimeMillis()
+//    logger.info("AppMonthKpi runData 累计耗时(秒):" + (end - start))
   }
 
   /**

@@ -1,7 +1,6 @@
 package com.analysis.nxd.doris.main
 
 import com.analysis.nxd.common.utils.{DateUtils, JdbcUtils}
-import com.analysis.nxd.doris.app.AppDayFH4Kpi
 import com.analysis.nxd.doris.dwd.DwdUnifyDataFH4
 import com.analysis.nxd.doris.dws.DwsDayFH4Kpi
 import com.analysis.nxd.doris.ods.OdsSynDataFH4
@@ -40,10 +39,10 @@ object FH4SiteMain {
 
     JdbcUtils.execute(conn, "use doris_dt", "use doris_dt")
 
-    OdsSynDataFH4.runSiteData(startTime, endTime, isDeleteData, conn)
-    DwdUnifyDataFH4.runSiteData(startTime, endTime, isDeleteData, conn)
-    DwsDayFH4Kpi.runData(startTime, endTime, isDeleteData, conn)
-    AppDayFH4Kpi.runData(startTime, endTime, isDeleteData, conn)
+//    OdsSynDataFH4.runSiteData(startTime, endTime, isDeleteData, conn)
+//    DwdUnifyDataFH4.runSiteData(startTime, endTime, isDeleteData, conn)
+//    DwsDayFH4Kpi.runData(startTime, endTime, isDeleteData, conn)
+    // AppDayFH4Kpi.runData(startTime, endTime, isDeleteData, conn)
 
     JdbcUtils.close(conn)
   }

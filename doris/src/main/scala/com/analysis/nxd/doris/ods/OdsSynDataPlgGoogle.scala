@@ -11,17 +11,17 @@ object OdsSynDataPlgGoogle {
 
     JdbcUtils.execute(dorisConn, "use doris_dt", "use doris_dt")
 
-    val listGatewayConf = GoogleSheetsUtils.readGoogleSheet("1G1k2mERIJAbPWMWytEapm2lfmDY1FFrztE_bhTsG3G0", "收款方式定义表!A2:C");
-    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_gateway_conf", listGatewayConf)
+//    val listGatewayConf = GoogleSheetsUtils.readGoogleSheet("1G1k2mERIJAbPWMWytEapm2lfmDY1FFrztE_bhTsG3G0", "收款方式定义表!A2:C");
+//    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_gateway_conf", listGatewayConf)
 
-    val listPlatformConf = GoogleSheetsUtils.readGoogleSheet("10ELAZqkPmrryHd3MUPui1_5e0CT72hDjGv_XdOUVFiI", "平台代号表!A2:D");
-    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_platform_conf", listPlatformConf)
+//    val listPlatformConf = GoogleSheetsUtils.readGoogleSheet("10ELAZqkPmrryHd3MUPui1_5e0CT72hDjGv_XdOUVFiI", "平台代号表!A2:D");
+//    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_platform_conf", listPlatformConf)
 
-    val listChannelConf = GoogleSheetsUtils.readGoogleSheet("1P2FKRRHHv8AKbn22HEb-o4lMedbgIVin3KET86fifo8", "渠道代号表!A2:B");
-    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_channel_conf", listChannelConf)
-
-    val listChannelGatelConf = GoogleSheetsUtils.readGoogleSheet("1cK-bPWgP8CpxY_ghZ-P7RyVNVh0_7Yt-L7_dTZ0AhF4", "渠道信息!A2:E");
-    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_channel_gate_conf", listChannelGatelConf)
+//    val listChannelConf = GoogleSheetsUtils.readGoogleSheet("1P2FKRRHHv8AKbn22HEb-o4lMedbgIVin3KET86fifo8", "渠道代号表!A2:B");
+//    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_channel_conf", listChannelConf)
+//
+//    val listChannelGatelConf = GoogleSheetsUtils.readGoogleSheet("1cK-bPWgP8CpxY_ghZ-P7RyVNVh0_7Yt-L7_dTZ0AhF4", "渠道信息!A2:E");
+//    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_plg_channel_gate_conf", listChannelGatelConf)
 
     // 调整标准化报表_玩家
     //    val arrAdjustPlayer = Array(

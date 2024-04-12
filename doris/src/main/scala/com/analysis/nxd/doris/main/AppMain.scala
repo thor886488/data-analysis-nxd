@@ -42,8 +42,8 @@ object AppMain {
     AppDayKpi.runTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
     AppDayKpi.runTransactionData(site_code, startTime, endTime, isDeleteData, conn)
 
-    AppDayKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
-    AppDayKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppDayKpi.runGroupData(site_code, startTime, endTime, isDeleteData, conn)
+//    AppDayKpi.runGroupTurnoverData(site_code, startTime, endTime, isDeleteData, conn)
 
     JdbcUtils.close(conn)
   }
