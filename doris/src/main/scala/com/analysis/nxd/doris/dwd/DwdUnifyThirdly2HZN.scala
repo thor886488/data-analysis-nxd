@@ -1,7 +1,6 @@
 package com.analysis.nxd.doris.dwd
 
 import com.analysis.nxd.common.utils.JdbcUtils
-import com.analysis.nxd.doris.utils.ThreadPoolUtils
 import org.slf4j.LoggerFactory
 
 import java.sql.Connection
@@ -87,6 +86,7 @@ object DwdUnifyThirdly2HZN {
          |WHEN 20017 THEN 'CX'
          |WHEN 20018 THEN 'KY'
          |WHEN 20030 THEN 'WM'
+         |WHEN 20031 THEN 'FB'
          |ELSE 'BOTH' END  as  thirdly_code
          |,t_f.user_id
          |,t_f.username
@@ -109,6 +109,7 @@ object DwdUnifyThirdly2HZN {
          |WHEN 20017 THEN '加密货币'
          |WHEN 20018 THEN '棋牌'
          |WHEN 20030 THEN '真人'
+         |WHEN 20031 THEN '体育'
          |ELSE  '其他'  END  as  kind_name
          |,t_f.type_id type_code
          |,t_t.paren_type_code

@@ -23,6 +23,13 @@ object OdsSynAccount2HZN {
   }
 
   def runThirdlyData(startTimeP: String, endTimeP: String, isDeleteData: Boolean, conn: Connection): Unit = {
+    val sql_ods_2hzn_fb_platform_accounts_log =
+      s"""
+         |insert into  ods_2hzn_platform_accounts_log
+         |select  now() data_syn_time,'2HZN' site_code,'FB' thirdly_code,user_id,id,platform_id,platform_username,username,parent_id,balance,frozen,amount,transferable,locked,locked_by,status,created_at,updated_at
+         |from  syn_2hzn_fb_platform_accounts
+         |""".stripMargin
+
     val sql_ods_2hzn_wm_platform_accounts_log =
       s"""
          |insert into  ods_2hzn_platform_accounts_log
@@ -134,6 +141,9 @@ object OdsSynAccount2HZN {
     JdbcUtils.execute(conn, "sql_ods_2hzn_mg_platform_accounts_log", sql_ods_2hzn_mg_platform_accounts_log)
     JdbcUtils.execute(conn, "sql_ods_2hzn_ky_platform_accounts_log", sql_ods_2hzn_ky_platform_accounts_log)
     JdbcUtils.execute(conn, "sql_ods_2hzn_wm_platform_accounts_log", sql_ods_2hzn_wm_platform_accounts_log)
+    JdbcUtils.execute(conn, "sql_ods_2hzn_fb_platform_accounts_log", sql_ods_2hzn_fb_platform_accounts_log)
+
+
 
     val end = System.currentTimeMillis()
     logger.info("2HZN站 三方数据同步累计耗时(毫秒):" + (end - start))
