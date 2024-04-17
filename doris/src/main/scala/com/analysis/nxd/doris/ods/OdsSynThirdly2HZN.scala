@@ -152,6 +152,30 @@ object OdsSynThirdly2HZN {
          |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
          |""".stripMargin
 
+    val sql_ods_2hzn_pp_platform_orders =
+      s"""
+         |insert into  ods_2hzn_platform_orders
+         |select  game_start_time,'2HZN' site_code,'PP' thirdly_code,user_id,id,order_no,user_name,platform_username,game_name,game_type,amount,actual_amount,prize,rate,status,status_transfer,status_commission,client,updated_at,created_at,order_type,transfer_amount,detail_id
+         |from  syn_2hzn_pp_platform_orders
+         |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
+         |""".stripMargin
+
+    val sql_ods_2hzn_cq_platform_orders =
+      s"""
+         |insert into  ods_2hzn_platform_orders
+         |select  game_start_time,'2HZN' site_code,'CQ' thirdly_code,user_id,id,order_no,user_name,platform_username,game_name,game_type,amount,actual_amount,prize,rate,status,status_transfer,status_commission,client,updated_at,created_at,order_type,transfer_amount,detail_id
+         |from  syn_2hzn_cq_platform_orders
+         |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
+         |""".stripMargin
+
+    val sql_ods_2hzn_obgzr_platform_orders =
+      s"""
+         |insert into  ods_2hzn_platform_orders
+         |select  game_start_time,'2HZN' site_code,'OBGZR' thirdly_code,user_id,id,order_no,user_name,platform_username,game_name,game_type,amount,actual_amount,prize,rate,status,status_transfer,status_commission,client,updated_at,created_at,order_type,transfer_amount,detail_id
+         |from  syn_2hzn_obgzr_platform_orders
+         |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
+         |""".stripMargin
+
     val sql_ods_2hzn_ag_platform_orders_detail =
       s"""
          |insert into  ods_2hzn_ag_platform_orders_detail
@@ -205,6 +229,10 @@ object OdsSynThirdly2HZN {
     JdbcUtils.execute(conn, "sql_ods_2hzn_wm_platform_orders", sql_ods_2hzn_wm_platform_orders)
 
     JdbcUtils.execute(conn, "sql_ods_2hzn_fb_platform_orders", sql_ods_2hzn_fb_platform_orders)
+    JdbcUtils.execute(conn, "sql_ods_2hzn_pp_platform_orders", sql_ods_2hzn_pp_platform_orders)
+    JdbcUtils.execute(conn, "sql_ods_2hzn_cq_platform_orders", sql_ods_2hzn_cq_platform_orders)
+    JdbcUtils.execute(conn, "sql_ods_2hzn_obgzr_platform_orders", sql_ods_2hzn_obgzr_platform_orders)
+
 
 
     val end = System.currentTimeMillis()

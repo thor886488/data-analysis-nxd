@@ -108,8 +108,11 @@ object DwdUnifyThirdly2HZN {
          |WHEN 20016 THEN '电子'
          |WHEN 20017 THEN '加密货币'
          |WHEN 20018 THEN '棋牌'
+         |WHEN 20028 THEN '电子'
+         |WHEN 20029 THEN '电子'
          |WHEN 20030 THEN '真人'
          |WHEN 20031 THEN '体育'
+         |WHEN 20032 THEN '真人'
          |ELSE  '其他'  END  as  kind_name
          |,t_f.type_id type_code
          |,t_t.paren_type_code
