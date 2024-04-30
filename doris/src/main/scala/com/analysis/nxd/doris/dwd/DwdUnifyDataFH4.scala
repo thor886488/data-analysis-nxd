@@ -305,6 +305,7 @@ object DwdUnifyDataFH4 {
          |,t.approver
          |,(t.deposit_amt/10000) * t_t.pm_available  transaction_amount
          |,t.memo  note
+         |,t.status
          |,now()  update_date
          |from
          |(
