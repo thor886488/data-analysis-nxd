@@ -308,6 +308,7 @@ object DwdUnifyDataFH3 {
          |, adminname approver
          |,t.amount * t_t.pm_available  transaction_amount
          |,t.description  note
+         |,t.transferstatus  status
          |,now()  update_date
          |from
          |(
