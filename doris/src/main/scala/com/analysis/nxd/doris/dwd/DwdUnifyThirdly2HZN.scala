@@ -85,6 +85,9 @@ object DwdUnifyThirdly2HZN {
          |WHEN 20016 THEN 'PG'
          |WHEN 20017 THEN 'CX'
          |WHEN 20018 THEN 'KY'
+         |WHEN 20021 THEN 'OBGZR'
+         |WHEN 20028 THEN 'PP'
+         |WHEN 20029 THEN 'CQ'
          |WHEN 20030 THEN 'WM'
          |WHEN 20031 THEN 'FB'
          |ELSE 'BOTH' END  as  thirdly_code
@@ -108,6 +111,7 @@ object DwdUnifyThirdly2HZN {
          |WHEN 20016 THEN '电子'
          |WHEN 20017 THEN '加密货币'
          |WHEN 20018 THEN '棋牌'
+         |WHEN 20021 THEN '真人'
          |WHEN 20028 THEN '电子'
          |WHEN 20029 THEN '电子'
          |WHEN 20030 THEN '真人'
