@@ -107,9 +107,9 @@ object OdsSynDataGoogle {
     JdbcUtils.executeList(dorisConn, mysqlConn, "ods_agent_month_conf", listAgentConf)
 
     val endMonth = DateUtils.getFirstDayOfMonth(DateUtils.getSysFullDate)
-    val startMonth = DateUtils.addMonth(endMonth, -18) + "-01"
+    val startMonth = DateUtils.addMonth(endMonth, -60) + "-01"
 
-    for (months <- 0 to 18) {
+    for (months <- 0 to 60) {
       val runMonth = DateUtils.addMonth(startMonth, months) + "-01"
       val nextMonth = DateUtils.addMonth(runMonth, 1) + "-01"
       val sql_dwd_agent_month_conf =
