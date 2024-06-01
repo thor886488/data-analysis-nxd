@@ -151,7 +151,7 @@ object OdsSynDataGoogle {
            |) t  where  rank_time=1
            |""".stripMargin
 
-      if (DateUtils.compareDate(runMonth, "2022-08-01") >= 0) {
+      if (DateUtils.compareDate(runMonth, "2021-01-01") >= 0) {
         JdbcUtils.execute(dorisConn, "sql_dwd_agent_month_conf", sql_dwd_agent_month_conf)
         JdbcUtils.execute(dorisConn, "sql_dwd_agent_month_conf_all", sql_dwd_agent_month_conf_all)
       }
