@@ -55,6 +55,16 @@ object OdsSynThirdlyBM {
          |from  syn_bm_bbin_platform_orders
          |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
          |""".stripMargin
+
+    val sql_ods_bm_gemini_platform_orders =
+      s"""
+         |insert into  ods_bm_platform_orders
+         |select  game_start_time,'BM' site_code,'GEMINI' thirdly_code,user_id,id,order_no,user_name,platform_username,game_name,game_type,amount,actual_amount,prize,rate,status,status_transfer,status_commission,client,updated_at,created_at,0 order_type,0 transfer_amount,detail_id
+         |from  syn_bm_gemini_platform_orders
+         |where (game_start_time>='$startTime' and  game_start_time<='$endTime')
+         |""".stripMargin
+
+
     val sql_ods_bm_qp761_platform_orders =
       s"""
          |insert into  ods_bm_platform_orders
@@ -278,6 +288,9 @@ object OdsSynThirdlyBM {
     JdbcUtils.execute(conn, "sql_ods_bm_nbg_platform_orders", sql_ods_bm_nbg_platform_orders)
     JdbcUtils.execute(conn, "sql_ods_bm_npg_platform_orders", sql_ods_bm_npg_platform_orders)
     JdbcUtils.execute(conn, "sql_ods_bm_obgzr_platform_orders", sql_ods_bm_obgzr_platform_orders)
+    JdbcUtils.execute(conn, "sql_ods_bm_gemini_platform_orders", sql_ods_bm_gemini_platform_orders)
+
+
 
     // 明细同步
     JdbcUtils.execute(conn, "sql_ods_bm_imone_platform_orders_detail", sql_ods_bm_imone_platform_orders_detail)

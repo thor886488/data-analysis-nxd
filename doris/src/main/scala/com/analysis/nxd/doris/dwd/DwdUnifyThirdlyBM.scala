@@ -92,6 +92,7 @@ object DwdUnifyThirdlyBM {
          |WHEN 20022 THEN 'BG'
          |WHEN 20024 THEN 'PG'
          |WHEN 20027 THEN 'KY'
+         |WHEN 20032 THEN 'GEMINI'
          |ELSE 'BOTH' END  as  thirdly_code
          |,t_f.user_id
          |,t_f.username
@@ -118,6 +119,7 @@ object DwdUnifyThirdlyBM {
          |WHEN 20022 THEN '真人'
          |WHEN 20024 THEN '电子'
          |WHEN 20027 THEN '棋牌'
+         |WHEN 20032 THEN '电子'
          |ELSE  '其他'  END  as  kind_name
          |,t_f.type_id type_code
          |,t_t.paren_type_code

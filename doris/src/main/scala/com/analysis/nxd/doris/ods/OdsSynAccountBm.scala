@@ -144,6 +144,13 @@ object OdsSynAccountBm {
          |from  syn_bm_ky_platform_accounts
          |""".stripMargin
 
+    val sql_ods_bm_gemini_platform_accounts_log =
+      s"""
+         |insert into  ods_bm_platform_accounts_log
+         |select  now() data_syn_time,'BM' site_code,'GEMINI' thirdly_code,user_id,id,platform_id,platform_username,username,parent_id,balance,frozen,amount,transferable,locked,locked_by,status,created_at,updated_at
+         |from  syn_bm_gemini_platform_accounts
+         |""".stripMargin
+
 
     JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")
     val start = System.currentTimeMillis()
@@ -166,6 +173,7 @@ object OdsSynAccountBm {
     JdbcUtils.execute(conn, "sql_ods_bm_pg_platform_accounts_log", sql_ods_bm_pg_platform_accounts_log)
     JdbcUtils.execute(conn, "sql_ods_bm_cx_platform_accounts_log", sql_ods_bm_cx_platform_accounts_log)
     JdbcUtils.execute(conn, "sql_ods_bm_ky_platform_accounts_log", sql_ods_bm_ky_platform_accounts_log)
+    JdbcUtils.execute(conn, "sql_ods_bm_gemini_platform_accounts_log", sql_ods_bm_gemini_platform_accounts_log)
     val end = System.currentTimeMillis()
     logger.info("BM站 三方数据同步累计耗时(毫秒):" + (end - start))
   }
