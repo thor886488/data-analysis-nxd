@@ -53,9 +53,9 @@ object OdsSynDataFH4 {
     JdbcUtils.execute(conn, "sql_ods_fh4_user_chain_backup", sql_ods_fh4_user_chain_backup)
     JdbcUtils.execute(conn, "sql_ods_fh4_fund", sql_ods_fh4_fund)
 
-    val ids: String = JdbcUtils.queryListStr(null, conn, s"select user_id from   ods_fh4_user_chain_backup where  (create_date>='$startUpdateTimeP' and  create_date<='$endTimeP')","")
+    val ids: String = JdbcUtils.queryListStr(null, conn, s"select user_id from   ods_fh4_user_chain_backup where  (create_date>='$startUpdateTimeP' and  create_date<='$endTimeP')", "")
     if (!StringUtils.isNullOrEmpty(ids)) {
-      val ids2: String = ids.substring(1,ids.length);
+      val ids2: String = ids.substring(1, ids.length);
       System.out.print(ids2)
       val sql_ods_fh4_user_customer_2 =
         s"""
@@ -141,6 +141,13 @@ object OdsSynDataFH4 {
          |from syn_oracle_fh4_fund_charge
          |where  (apply_time>='$startUpdateTime' and  apply_time <='$endTime')
          |""".stripMargin
+    val sql_ods_fh4_rd_fund_charge =
+      s"""
+         |INSERT INTO ods_fh4_rd_fund_charge
+         |select apply_time,'FH4' as site_code,user_id,id,bank_id,pre_charge_amt,card_number,rcv_card_number,rcv_acc_name,rcv_email,real_charge_amt,charge_time,mc_notice_time,status,charge_memo,mc_fee,sn,mc_expire_time,mc_error_msg,mc_channel,mc_area,mc_uuid,mc_sn,mc_bank_fee,user_act,temp_sn,account,pay_bank_id,rcv_bank_name,deposit_mode,break_url,real_bank_id,platfom,ver,operating_time,charge_card_num,charge_mode,currency,exchange_rate,original_currency_amount,charge_fee
+         |from syn_oracle_fh4_rd_fund_charge
+         |where  (apply_time>='$startUpdateTime' and  apply_time <='$endTime')
+         |""".stripMargin
 
     val sql_ods_fh4_fund_withdraw =
       s"""
@@ -197,6 +204,7 @@ object OdsSynDataFH4 {
     JdbcUtils.execute(conn, "sql_ods_fh4_user_bank", sql_ods_fh4_user_bank)
     JdbcUtils.execute(conn, "sql_ods_fh4_fund_manual_deposit", sql_ods_fh4_fund_manual_deposit)
     JdbcUtils.execute(conn, "sql_ods_fh4_fund_charge", sql_ods_fh4_fund_charge)
+    JdbcUtils.execute(conn, "sql_ods_fh4_rd_fund_charge", sql_ods_fh4_rd_fund_charge)
     JdbcUtils.execute(conn, "sql_ods_fh4_fund_withdraw", sql_ods_fh4_fund_withdraw)
 
     val sql_id_max_value_ods_fh4_iovation_response = s"select  max(id) maxIndex  from  ods_fh4_iovation_response "

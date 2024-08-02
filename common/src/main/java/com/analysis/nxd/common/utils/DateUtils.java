@@ -448,7 +448,7 @@ public class DateUtils {
 
     public static void main(String[] args) {
 
-        System.out.println(tranDorisToOracleTimestamp("2022-07-02 23:59:59"));
+        System.out.println(tranDorisToOracleTimestamp("2024-01-01 23:59:59"));
     }
 
 }

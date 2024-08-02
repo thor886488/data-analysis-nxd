@@ -511,7 +511,7 @@ object DwdUnifyDataFH4 {
          |(
          |select  site_code,user_id,charge_time
          |,ROW_NUMBER() OVER(PARTITION BY site_code,user_id ORDER BY  charge_time ) rank_time
-         |from  doris_dt.ods_fh4_fund_charge
+         |from  doris_dt.ods_fh4_rd_fund_charge
          |where  (apply_time>=date_add('$startTime',-10) and  apply_time<='$endTime') and   (charge_time>='$startTime' and  charge_time<='$endTime')
          |and status in(2)
          |) t  where  rank_time=1
@@ -572,7 +572,7 @@ object DwdUnifyDataFH4 {
          |,t_u.user_level
          |from
          |(
-         |select *  from  doris_dt.ods_fh4_fund_charge
+         |select *  from  doris_dt.ods_fh4_rd_fund_charge
          |where  (apply_time>=date_add('$startTime',-10) and  apply_time<='$endTime') and   (charge_time>='$startTime' and  charge_time<='$endTime')
          |) t_t
          |left  join  dwd_fh4_first_charge t_f    on   t_t.user_id=t_f.user_id and t_t.charge_time=t_f.charge_time_min
@@ -772,7 +772,7 @@ object DwdUnifyDataFH4 {
          |,t.apply_time  updated_at
          |from
          |(
-         |select  * from  ods_fh4_fund_charge where  apply_time>='$startTime'    and   apply_time<='$endTime'
+         |select  * from  ods_fh4_rd_fund_charge where  apply_time>='$startTime'    and   apply_time<='$endTime'
          |) t
          |join   (select *  from  doris_dt.dwd_users_fh4_log where  site_code='FH4' and (active_date>= CONCAT(DATE_FORMAT('$startTime','%Y-%m'),'-01') and  active_date<='$endTime'))  t_u  on t.site_code=t_u.site_code and  t.user_id=t_u.id  and   CONCAT(DATE_FORMAT(t.apply_time,'%Y-%m'),'-01')=t_u.active_date
          |""".stripMargin
