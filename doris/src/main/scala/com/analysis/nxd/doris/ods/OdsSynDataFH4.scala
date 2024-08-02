@@ -194,6 +194,13 @@ object OdsSynDataFH4 {
          |where  (create_time>='$startTime'  and  create_time <='$endTime')
          |""".stripMargin
 
+    val sql_ods_fh4_risk_tag_log =
+      """
+        |insert into ods_fh4_risk_tag_log
+        |select id,'FH4' site_code,type,raw_tag,modified_tag,account,operator,note,created_time
+        |from syn_oracle_fh4_risk_tag_log
+        |""".stripMargin
+
     val start = System.currentTimeMillis()
 
     JdbcUtils.execute(conn, "sql_ods_fh4_fund_change_log", sql_ods_fh4_fund_change_log)
@@ -206,6 +213,7 @@ object OdsSynDataFH4 {
     JdbcUtils.execute(conn, "sql_ods_fh4_fund_charge", sql_ods_fh4_fund_charge)
     JdbcUtils.execute(conn, "sql_ods_fh4_rd_fund_charge", sql_ods_fh4_rd_fund_charge)
     JdbcUtils.execute(conn, "sql_ods_fh4_fund_withdraw", sql_ods_fh4_fund_withdraw)
+    JdbcUtils.execute(conn, "sql_ods_fh4_risk_tag_log", sql_ods_fh4_risk_tag_log)
 
     val sql_id_max_value_ods_fh4_iovation_response = s"select  max(id) maxIndex  from  ods_fh4_iovation_response "
     val minIndexCollect = JdbcUtils.getMinIndex("FH4", conn, "sql_id_max_value_ods_fh4_iovation_response", sql_id_max_value_ods_fh4_iovation_response)
