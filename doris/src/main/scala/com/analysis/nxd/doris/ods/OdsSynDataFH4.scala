@@ -121,7 +121,7 @@ object OdsSynDataFH4 {
     val sql_ods_fh4_user_bank =
       s"""
          |INSERT INTO ods_fh4_user_bank
-         |select gmt_created,'FH4' as site_code,user_id,id,bank_id,province,city,branch_name,gmt_modified,bank_account,mc_bank_id,bindcard_type,nick_name,digital_currency_wallet
+         |select gmt_created,'FH4' as site_code,user_id,id,bank_id,bank_number,province,city,branch_name,gmt_modified,bank_account,mc_bank_id,bindcard_type,nick_name,digital_currency_wallet
          |from syn_oracle_fh4_user_bank
          |where  (gmt_created>='$startUpdateTime' and  gmt_created <='$endTime')
          |""".stripMargin
