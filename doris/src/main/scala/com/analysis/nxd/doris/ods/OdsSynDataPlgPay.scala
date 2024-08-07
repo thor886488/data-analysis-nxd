@@ -13,7 +13,7 @@ object OdsSynDataPlgPay {
     val sql_ods_plg_deposit_slips =
       s"""
          |insert  into ods_plg_deposit_slips
-         |created_at, id, order_no, no, amount, platform, channel, gateway, bank, ip, status, updated_at, fee, extra, return_url, notify_url, actual_amount, user_id, bb_fee, bb_amount, bb_actual_amount, platform_created_at, user_fee, user_fee_rate, real_name, currency_type, notify_num, notify_info, tx_no, service_fee, reward_ratio, rank, bb_to_address, hash_no, is_push_mg, mg_return, receive_bankname, receive_name, receive_cardnumber, pay_name, pay_bankname, pay_cardnumber, safe_pay_state, safe_pay_rate
+         |select created_at, id, order_no, no, amount, platform, channel, gateway, bank, ip, status, updated_at, fee, extra, return_url, notify_url, actual_amount, user_id, bb_fee, bb_amount, bb_actual_amount, platform_created_at, user_fee, user_fee_rate, real_name, currency_type, notify_num, notify_info, tx_no, service_fee, reward_ratio, rank, bb_to_address, hash_no, is_push_mg, mg_return, receive_bankname, receive_name, receive_cardnumber, pay_name, pay_bankname, pay_cardnumber, safe_pay_state, safe_pay_rate
          |from syn_plg_deposit_slips
          |where   (updated_at>='$startTime' and  updated_at<='$endTime')
          |""".stripMargin
