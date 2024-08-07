@@ -13,7 +13,7 @@ object OdsSynDataPlgPay {
     val sql_ods_plg_deposit_slips =
       s"""
          |insert  into ods_plg_deposit_slips
-         |select created_at,id,order_no,no,amount,platform,channel,gateway,bank,ip,status,updated_at,fee,extra,return_url,notify_url,actual_amount,user_id,bb_fee,bb_amount,bb_actual_amount,platform_created_at,user_fee,user_fee_rate,real_name,currency_type,notify_num,notify_info,tx_no,service_fee, reward_ratio, rank
+         |created_at, id, order_no, no, amount, platform, channel, gateway, bank, ip, status, updated_at, fee, extra, return_url, notify_url, actual_amount, user_id, bb_fee, bb_amount, bb_actual_amount, platform_created_at, user_fee, user_fee_rate, real_name, currency_type, notify_num, notify_info, tx_no, service_fee, reward_ratio, rank, bb_to_address, hash_no, is_push_mg, mg_return, receive_bankname, receive_name, receive_cardnumber, pay_name, pay_bankname, pay_cardnumber, safe_pay_state, safe_pay_rate
          |from syn_plg_deposit_slips
          |where   (updated_at>='$startTime' and  updated_at<='$endTime')
          |""".stripMargin
@@ -29,7 +29,7 @@ object OdsSynDataPlgPay {
     val sql_ods_plg_withdrawal_slips =
       s"""
          |insert  into  ods_plg_withdrawal_slips
-         |select  created_at,id,order_no,no,amount,bank,bank_province,bank_city,bank_branch,card_no,card_holder,holder_phone,holder_id,platform,channel,ip,status,updated_at,fee,extra,notify_url,platform_created_at,identity,identity_type,real_name,currency_type,bb_address,bb_type,bb_amount,bb_fee,notify_num,notify_info,tx_no,service_fee,reward_ratio
+         |select  created_at, id, order_no, no, amount, bank, bank_province, bank_city, bank_branch, card_no, card_holder, holder_phone, holder_id, platform, channel, ip, status, updated_at, fee, extra, notify_url, platform_created_at, identity, identity_type, real_name, currency_type, bb_address, bb_type, bb_amount, bb_fee, notify_num, notify_info, tx_no, service_fee, reward_ratio, is_matched, alipay_account, alipay_holder, is_push_mg, mg_return, pay_name, pay_bankname, pay_banknumber, user_id, wechat_account, wechat_holder, receive_qrcode_url, safe_withdraw_state, safe_withdraw_rate
          |from  syn_plg_withdrawal_slips
          |where   (updated_at>='$startTime' and  updated_at<='$endTime')
          |""".stripMargin
@@ -145,17 +145,17 @@ object OdsSynDataPlgPay {
     val sql_ods_tc_u_user_withdrawals_count = s"select   count(1) countData  from ods_tc_u_user_withdrawals where   RequestTime>='$startTime' and RequestTime<='$endTime'"
     VerifyDataUtils.verifyData("sql_ods_tc_u_user_withdrawals_count", sql_syn_mysql_tc_u_user_withdrawals_count, sql_ods_tc_u_user_withdrawals_count, conn)
 
-//    val sql_syn_sql_hc_c_fillmoney_count = s"select   count(1) countData  from syn_sql_hc_c_fillmoney where   RequestTime>='$startTime' and RequestTime<='$endTime'"
-//    val sql_ods_hc_c_fillmoney_count = s"select   count(1) countData  from ods_hc_c_fillmoney where   RequestTime>='$startTime' and RequestTime<='$endTime'"
-//    VerifyDataUtils.verifyData("sql_ods_hc_c_fillmoney_count", sql_syn_sql_hc_c_fillmoney_count, sql_ods_hc_c_fillmoney_count, conn)
+    //    val sql_syn_sql_hc_c_fillmoney_count = s"select   count(1) countData  from syn_sql_hc_c_fillmoney where   RequestTime>='$startTime' and RequestTime<='$endTime'"
+    //    val sql_ods_hc_c_fillmoney_count = s"select   count(1) countData  from ods_hc_c_fillmoney where   RequestTime>='$startTime' and RequestTime<='$endTime'"
+    //    VerifyDataUtils.verifyData("sql_ods_hc_c_fillmoney_count", sql_syn_sql_hc_c_fillmoney_count, sql_ods_hc_c_fillmoney_count, conn)
 
- //   val sql_syn_sql_hc_c_fund_detail_count = s"select   count(1) countData  from syn_sql_hc_c_fund_detail where   CreateTime>='$startTime' and CreateTime<='$endTime'"
- //   val sql_ods_hc_c_fund_detail_count = s"select   count(1) countData  from ods_hc_c_fund_detail where   CreateTime>='$startTime' and CreateTime<='$endTime'"
- //   VerifyDataUtils.verifyData("sql_ods_hc_c_fund_detail_count", sql_syn_sql_hc_c_fund_detail_count, sql_ods_hc_c_fund_detail_count, conn)
+    //   val sql_syn_sql_hc_c_fund_detail_count = s"select   count(1) countData  from syn_sql_hc_c_fund_detail where   CreateTime>='$startTime' and CreateTime<='$endTime'"
+    //   val sql_ods_hc_c_fund_detail_count = s"select   count(1) countData  from ods_hc_c_fund_detail where   CreateTime>='$startTime' and CreateTime<='$endTime'"
+    //   VerifyDataUtils.verifyData("sql_ods_hc_c_fund_detail_count", sql_syn_sql_hc_c_fund_detail_count, sql_ods_hc_c_fund_detail_count, conn)
 
-//    val sql_syn_sql_hc_c_withdraw_count = s"select   count(1) countData  from syn_sql_hc_c_withdraw where   RequestTime>='$startTime' and RequestTime<='$endTime'"
-//    val sql_ods_hc_c_withdraw_count = s"select   count(1) countData  from ods_hc_c_withdraw where   RequestTime>='$startTime' and RequestTime<='$endTime'"
-//    VerifyDataUtils.verifyData("sql_ods_hc_c_withdraw_count", sql_syn_sql_hc_c_withdraw_count, sql_ods_hc_c_withdraw_count, conn)
+    //    val sql_syn_sql_hc_c_withdraw_count = s"select   count(1) countData  from syn_sql_hc_c_withdraw where   RequestTime>='$startTime' and RequestTime<='$endTime'"
+    //    val sql_ods_hc_c_withdraw_count = s"select   count(1) countData  from ods_hc_c_withdraw where   RequestTime>='$startTime' and RequestTime<='$endTime'"
+    //    VerifyDataUtils.verifyData("sql_ods_hc_c_withdraw_count", sql_syn_sql_hc_c_withdraw_count, sql_ods_hc_c_withdraw_count, conn)
 
   }
 
