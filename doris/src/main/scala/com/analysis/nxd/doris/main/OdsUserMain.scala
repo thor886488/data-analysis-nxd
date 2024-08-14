@@ -46,7 +46,7 @@ object OdsUserMain {
     } else if ("YFT".equals(site_code)) {
       OdsSynDataYft.runUserData(startTime, endTime, isDeleteData, conn)
     } else if ("FH4".equals(site_code)) {
-      OdsSynDataFH4.runUserData(startTime, endTime, isDeleteData, conn)
+      OdsSynDataFH4.runUserData2(startTime, endTime, isDeleteData, conn)
     } else if ("FH4_2".equals(site_code)) {
       OdsSynDataFH4.runDataOrder(startTime, endTime, isDeleteData, conn)
     } else if ("BM".equals(site_code)) {
