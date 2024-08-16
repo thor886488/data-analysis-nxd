@@ -27,7 +27,7 @@ object OdsSynDataFH4 {
          |select register_date,'FH4' site_code,id,account,passwd,passwd_lvl,withdraw_passwd,cipher,sex,email,email_actived,cellphone,birthday,qq_structure,is_freeze,user_lvl,qu_struc,withdraw_passwd_active_date,question_structure_active_date,register_ip,parent_id,user_chain,last_login_date,term_a_count,freeze_date,freezer,vip_cellphone,term_u_account,agent_limit,freeze_method,last_login_ip,freeze_memo,freeze_account,unfreeze_date,freeze_id,vip_lvl,referer,url_id,bind_date,bind_phone_serial,unbind_type,phone_serial_num,phone_type,source,device,award_ret_status,super_pair_status,modify_passwd_date,appeal_new_func,nick_name,head_img,nick_update_time,lhc_status,wechat,pk10_status,max_award,auto_trans_flag,joint_venture,ga_id,new_vip_flag
          |from   syn_oracle_fh4_user_customer
          |where  (register_date>='$startUpdateTime' and  register_date<='$endTime')
-         |and   account not like  'guest%'
+         |and   account not like  'guest%' and  passwd not  LIKE  '%�%'
          |""".stripMargin
 
     val sql_ods_fh4_user_chain_backup =
