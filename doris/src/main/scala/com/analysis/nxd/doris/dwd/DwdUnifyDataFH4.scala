@@ -53,10 +53,10 @@ object DwdUnifyDataFH4 {
          |,t_u.last_login_date as updated_at
          |from
          |(
-         |  select  *   from ods_fh4_user_customer
+         |  select  *   from ods_fh4_user_customer_2
          |   where  !starts_with(account,'guest')
          |) t_u
-         |left join  ods_fh4_user_customer t_p  on  t_u.parent_id=t_p.id
+         |left join  ods_fh4_user_customer_2 t_p  on  t_u.parent_id=t_p.id
          |""".stripMargin
 
     val start = System.currentTimeMillis()

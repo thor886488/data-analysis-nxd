@@ -357,7 +357,7 @@ object AppUsers {
          |,t.modified_account   black_modified_account
          |, now() updated_at
          |from
-         |ods_fh4_user_customer t_u
+         |ods_fh4_user_customer_2 t_u
          |-- join  (select  distinct site_code,user_id from  app_day_user_kpi where    data_date>='$startDay' and data_date<= '$endDay'   and site_code='FH4') t_k on t_k.site_code=t_u.site_code and  t_k.user_id=t_u.id
          |left  join  app_day_group_user_count_kpi t_g on t_g.site_code=t_u.site_code and  t_g.group_username=t_u.account
          |left  join  ods_fh4_vip_user  t_v on   t_v.site_code=t_u.site_code and  t_v.user_id=t_u.id
