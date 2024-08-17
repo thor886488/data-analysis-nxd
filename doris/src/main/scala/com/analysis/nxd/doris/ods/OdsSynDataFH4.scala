@@ -40,7 +40,7 @@ object OdsSynDataFH4 {
          |and   account not like  'guest%' and  passwd not  LIKE  '%�%'
          |and account not like  'guest%' and  passwd not  LIKE  '%�%'
          |""".stripMargin
-
+    val sql_del_ods_fh4_user_customer =s"delete  from  ods_fh4_user_customer  where  (register_date>='$startUpdateTimeP' and  register_date<='$endTimeP') " ;
 
     val sql_ods_fh4_user_chain_backup =
       s"""
@@ -60,7 +60,10 @@ object OdsSynDataFH4 {
         |select 'FH4' site_code,user_id,id,security,bal,disable_amt,frozen_amt,charge_amt,withdraw_amt,transfer_amt
         |from syn_oracle_fh4_fund
         |""".stripMargin
+
+
     JdbcUtils.execute(conn, "sql_ods_fh4_user_customer_2", sql_ods_fh4_user_customer_2)
+    JdbcUtils.execute(conn, "sql_del_ods_fh4_user_customer", sql_del_ods_fh4_user_customer)
 
     JdbcUtils.execute(conn, "sql_ods_fh4_user_customer", sql_ods_fh4_user_customer)
 
