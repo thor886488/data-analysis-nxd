@@ -795,6 +795,55 @@ object DwdUnifyThirdlyFH4 {
          |join (select  *  from  dwd_users_fh4_log  where site_code='FH4' and  (active_date>= CONCAT(DATE_FORMAT('$startTime','%Y-%m'),'-01') and  active_date<='$endTime') )  t_u  on  t_b.site_code=t_u.site_code and   t_b.thirdly_user_id =t_u.id  and CONCAT(DATE_FORMAT(t_b.vendor_settle_time,'%Y-%m'),'-01')=t_u.active_date
          |""".stripMargin
 
+    val sql_dwd_fh4_thirdly_turnover_gamebox_gemini =
+      s"""
+         |insert into dwd_thirdly_turnover
+         |select
+         |t_b.vendor_settle_time data_time
+         |,t_b.site_code
+         |,t_b.thirdly_code
+         |,t_u.id  user_id
+         |,t_u.username
+         |,t_b.seq_id
+         |,t_u.user_chain_names
+         |,t_u.is_agent
+         |,t_u.is_tester
+         |,t_u.parent_id
+         |,t_u.parent_username
+         |,t_u.user_level
+         |,t_u.user_created_at
+         |,null thirdly_user_id
+         |,t_b.player_name thirdly_username
+         |,t_b.game_code
+         |,t_b.game_type
+         |, '电子' kind_name
+         |,if(status='Settle',1,0)   status
+         |,t_b.vendor_valid_turnover turnover_amount
+         |,ifnull(t_b.vendor_valid_turnover,t_b.vendor_valid_bet_amount) turnover_valid_amount
+         |,(ifnull(t_b.vendor_valid_turnover,t_b.vendor_valid_bet_amount) +vendor_winloss_amount)  prize_amount
+         |,t_b.vendor_winloss_amount profit_amount
+         |,0 room_fee_amount
+         |,0 revenue_amount
+         |,null game_star_time
+         |,null game_star_time_4
+         |,t_b.vendor_bet_time turnover_time
+         |,date_sub(t_b.vendor_bet_time,interval 12 HOUR ) turnover_time_4
+         |,null game_end_time
+         |,null game_end_time_4
+         |,t_b.vendor_settle_time settle_time
+         |,date_sub(t_b.vendor_settle_time,interval 12 HOUR ) settle_time_4
+         |,date_sub(t_b.vendor_settle_time,interval 12 HOUR ) data_time_4
+         |,if(status<>'Settle',1,0)  is_cancel
+         |from
+         |(
+         |select *  from  ods_fh4_gamebox_thirdly_bet_record  where
+         | (vendor_bet_time>=date_sub('$startTime',100) and  vendor_bet_time<=date_add('$endTime',1))
+         |and (vendor_settle_time>='$startTime' and  vendor_settle_time<='$endTime')
+         |and  thirdly_code='GEMINI'  and status='Settle'
+         |) t_b
+         |join (select  *  from  dwd_users_fh4_log  where site_code='FH4' and  (active_date>= CONCAT(DATE_FORMAT('$startTime','%Y-%m'),'-01') and  active_date<='$endTime') )  t_u  on  t_b.site_code=t_u.site_code and   t_b.thirdly_user_id =t_u.id  and CONCAT(DATE_FORMAT(t_b.vendor_settle_time,'%Y-%m'),'-01')=t_u.active_date
+         |""".stripMargin
+
     // 2.账变相关
     val sql_dwd_fh4_thirdly_transactions =
       s"""
@@ -861,6 +910,7 @@ object DwdUnifyThirdlyFH4 {
     JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_sb", sql_dwd_fh4_thirdly_turnover_sb)
     JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_gamebox", sql_dwd_fh4_thirdly_turnover_gamebox)
     JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_gamebox_ob", sql_dwd_fh4_thirdly_turnover_gamebox_ob)
+    JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_gamebox_gemini", sql_dwd_fh4_thirdly_turnover_gamebox_gemini)
     JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_ky", sql_dwd_fh4_thirdly_turnover_ky)
     JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_im", sql_dwd_fh4_thirdly_turnover_im)
     JdbcUtils.execute(conn, "sql_dwd_fh4_thirdly_turnover_im_2", sql_dwd_fh4_thirdly_turnover_im_2)
