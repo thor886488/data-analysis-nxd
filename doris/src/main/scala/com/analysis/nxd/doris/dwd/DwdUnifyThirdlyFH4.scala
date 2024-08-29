@@ -839,7 +839,7 @@ object DwdUnifyThirdlyFH4 {
          |select *  from  ods_fh4_gamebox_thirdly_bet_record  where
          | (vendor_bet_time>=date_sub('$startTime',100) and  vendor_bet_time<=date_add('$endTime',1))
          |and (vendor_settle_time>='$startTime' and  vendor_settle_time<='$endTime')
-         |and  thirdly_code='GEMINI'  and status='Settle'
+         |and  thirdly_code in('GEMINI','JOKER')  and status='Settle'
          |) t_b
          |join (select  *  from  dwd_users_fh4_log  where site_code='FH4' and  (active_date>= CONCAT(DATE_FORMAT('$startTime','%Y-%m'),'-01') and  active_date<='$endTime') )  t_u  on  t_b.site_code=t_u.site_code and   t_b.thirdly_user_id =t_u.id  and CONCAT(DATE_FORMAT(t_b.vendor_settle_time,'%Y-%m'),'-01')=t_u.active_date
          |""".stripMargin
