@@ -33,11 +33,21 @@ object OdsSynThirdly1HZ {
          |from  syn_1hz_game_records_shaba
          |where (transaction_time>='$startTime' and  transaction_time<='$endTime')
          |""".stripMargin
+
+    val sql_ods_1hz_game_records_gemini =
+      s"""
+         |insert  into ods_1hz_game_records_gemini
+         |select id,'1HZ' site_code,'GEMINI'  thirdly_code,bill_no,account,game_type,game_code,group_type,bet_type,bet_amount,item_amount,turnover,won_amount,win_lose,bill_status,bet_time,reckon_time,play_type,currency,created_at,updated_at
+         |from  syn_1hz_game_records_gemini
+         |where (transaction_time>='$startTime' and  transaction_time<='$endTime')
+         |""".stripMargin
+
     JdbcUtils.executeSyn1HZ(conn, "use doris_thirdly", "use doris_thirdly")
     val start = System.currentTimeMillis()
     JdbcUtils.executeSyn1HZ(conn, "sql_ods_1hz_game_records_ag", sql_ods_1hz_game_records_ag)
     JdbcUtils.executeSyn1HZ(conn, "sql_ods_1hz_game_records_lc", sql_ods_1hz_game_records_lc)
     JdbcUtils.executeSyn1HZ(conn, "sql_ods_1hz_game_records_shaba", sql_ods_1hz_game_records_shaba)
+    JdbcUtils.executeSyn1HZ(conn, "sql_ods_1hz_game_records_gemini", sql_ods_1hz_game_records_gemini)
 
     //    val map: Map[String, String] = Map(
     //      "sql_ods_1hz_game_records_ag" -> sql_ods_1hz_game_records_ag

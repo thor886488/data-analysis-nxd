@@ -50,10 +50,16 @@ object OdsSynAccount1HZ {
          |from  syn_1hz_game_users_shaba
          |""".stripMargin
 
+    val sql_ods_1hz_game_users_gemini_log =
+      s"""
+         |insert  into ods_1hz_game_users_all_log
+         |select now() data_syn_time,'1HZ' site_code,'GEMINI' thirdly_code,userid,username,id,istester is_tester,account,balance,free_balance,non_cashable_balance,1 version,created_at,created_at as updated_at,balance_updated_at, balance_updated_at as account_created_at,terminal_id
+         |from syn_1hz_game_users_gemini
+         |""".stripMargin
     JdbcUtils.execute(conn, "sql_ods_1hz_game_users_ag_log", sql_ods_1hz_game_users_ag_log)
     JdbcUtils.execute(conn, "sql_ods_1hz_game_users_lc_log", sql_ods_1hz_game_users_lc_log)
     JdbcUtils.execute(conn, "sql_ods_1hz_game_users_shaba_log", sql_ods_1hz_game_users_shaba_log)
-    
+    JdbcUtils.execute(conn, "sql_ods_1hz_game_users_gemini_log", sql_ods_1hz_game_users_gemini_log)
   }
 
   def main(args: Array[String]): Unit = {

@@ -170,6 +170,58 @@ object DwdUnifyThirdly1HZ {
          |)   t  where  rank_time=1
          |""".stripMargin
 
+    val sql_dwd_thirdly_turnover_gemini =
+      s"""
+         |insert into dwd_thirdly_turnover
+         |select data_time,site_code,thirdly_code,user_id,username,seq_id,user_chain_names,is_agent,is_tester,parent_id,parent_username,user_level,user_created_at,thirdly_user_id,thirdly_username,game_code,game_name,'电子' kind_name ,prize_status,turnover_amount,turnover_valid_amount,prize_amount,profit_amount,room_fee_amount,revenue_amount,reckon_time,reckon_time_4,turnover_time,turnover_time_4,game_end_time,game_end_time_4,settle_time,settle_time_4,data_time_4,is_cancel
+         |from
+         |(
+         |select
+         |reckon_time   as  data_time
+         |,'1HZ0' site_code
+         |,t_b.thirdly_code
+         |,t_u.id user_id
+         |,t_u.username username
+         |,t_b.id seq_id
+         |,t_u.user_chain_names
+         |,t_u.is_agent
+         |,t_u.is_tester
+         |,t_u.parent_id
+         |,t_u.parent_username
+         |,t_u.user_level
+         |,t_u.created_at user_created_at
+         |,0 thirdly_user_id
+         |,t_b.account thirdly_username
+         |,t_b.game_type game_code
+         |,t_b.game_type game_name
+         |,2 prize_status
+         |,t_b.bet_amount turnover_amount
+         |,t_b.turnover  turnover_valid_amount
+         |,t_b.won_amount prize_amount
+         |,t_b.win_lose profit_amount
+         |,0 room_fee_amount
+         |,0  revenue_amount
+         |,t_b.reckon_time reckon_time
+         |,date_sub(t_b.reckon_time,interval 12 HOUR ) reckon_time_4
+         |,t_b.reckon_time turnover_time
+         |,date_sub(t_b.reckon_time,interval 12 HOUR )turnover_time_4
+         |,t_b.reckon_time game_end_time
+         |,date_sub(t_b.reckon_time,interval 12 HOUR ) game_end_time_4
+         |,reckon_time settle_time
+         |,date_sub(t_b.reckon_time,interval 12 HOUR ) settle_time_4
+         |,date_sub(t_b.reckon_time,interval 12 HOUR ) data_time_4
+         |, 0 is_cancel
+         |,ROW_NUMBER() OVER(PARTITION BY  t_b.reckon_time ,t_b.site_code , t_b.id ,t_u.site_code,t_u.username ORDER BY  t_u.created_at desc  ) rank_time
+         |from
+         |(
+         |select  * from ods_1hz_game_records_gemini
+         |where reckon_time>='$startTime' and  reckon_time<='$endTime'
+         |) t_b
+         |join (select  *  from  doris_dt.dwd_users  where site_code='1HZ' )  t_u  on  t_b.site_code=t_u.site_code and  split_part(t_b.account,'_',2) = t_u.username
+         |where  date(t_b.reckon_time)>=date(t_u.created_at)
+         |)   t  where  rank_time=1 ;
+         |""".stripMargin
+
     val sql_dwd_thirdly_transactions =
       s"""
          |INSERT INTO dwd_thirdly_transactions
@@ -208,6 +260,7 @@ object DwdUnifyThirdly1HZ {
          |from  dwd_thirdly_transactions
          |where  site_code='1HZ0' and  (created_at>='$startTime' and  created_at<='$endTime')
          |""".stripMargin
+
     val sql_dwd_thirdly_turnover_1hz =
       s"""
          |insert  into  dwd_thirdly_turnover
@@ -222,29 +275,30 @@ object DwdUnifyThirdly1HZ {
     val start = System.currentTimeMillis()
     JdbcUtils.execute(conn, "use doris_thirdly", "use doris_thirdly")
     if (isDeleteData) {
-      JdbcUtils.executeSiteDeletePartitionMonth(startTime,endTime,"",conn, "sql_del_dwd_1hz_thirdly_transactions", sql_del_dwd_1hz_thirdly_transactions)
-      JdbcUtils.executeSiteDeletePartitionMonth(startTime,endTime,"",conn, "sql_del_dwd_1hz_thirdly_turnover", sql_del_dwd_1hz_thirdly_turnover)
+      JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_dwd_1hz_thirdly_transactions", sql_del_dwd_1hz_thirdly_transactions)
+      JdbcUtils.executeSiteDeletePartitionMonth(startTime, endTime, "", conn, "sql_del_dwd_1hz_thirdly_turnover", sql_del_dwd_1hz_thirdly_turnover)
     }
     JdbcUtils.execute(conn, "sql_dwd_thirdly_turnover_ag", sql_dwd_thirdly_turnover_ag)
     JdbcUtils.execute(conn, "sql_dwd_thirdly_turnover_lc", sql_dwd_thirdly_turnover_lc)
     JdbcUtils.execute(conn, "sql_dwd_thirdly_turnover_shaba", sql_dwd_thirdly_turnover_shaba)
+    JdbcUtils.execute(conn, "sql_dwd_thirdly_turnover_gemini", sql_dwd_thirdly_turnover_gemini)
     JdbcUtils.execute(conn, "sql_dwd_thirdly_transactions", sql_dwd_thirdly_transactions)
     JdbcUtils.execute(conn, "sql_dwd_thirdly_transactions_1hz", sql_dwd_thirdly_transactions_1hz)
     JdbcUtils.execute(conn, "sql_dwd_thirdly_turnover_1hz", sql_dwd_thirdly_turnover_1hz)
 
-//    val map: Map[String, String] = Map(
-//      "sql_dwd_thirdly_turnover_ag" -> sql_dwd_thirdly_turnover_ag
-//      , "sql_dwd_thirdly_turnover_lc" -> sql_dwd_thirdly_turnover_lc
-//      , "sql_dwd_thirdly_turnover_shaba" -> sql_dwd_thirdly_turnover_shaba
-//      , "sql_dwd_thirdly_transactions" -> sql_dwd_thirdly_transactions
-//    )
-//    ThreadPoolUtils.executeMap(map, conn, "doris_thirdly")
-//
-//    val map1hz0: Map[String, String] = Map(
-//      "sql_dwd_thirdly_transactions_1hz" -> sql_dwd_thirdly_transactions_1hz
-//      , "sql_dwd_thirdly_turnover_1hz" -> sql_dwd_thirdly_turnover_1hz
-//    )
-//    ThreadPoolUtils.executeMap(map1hz0, conn, "doris_thirdly")
+    //    val map: Map[String, String] = Map(
+    //      "sql_dwd_thirdly_turnover_ag" -> sql_dwd_thirdly_turnover_ag
+    //      , "sql_dwd_thirdly_turnover_lc" -> sql_dwd_thirdly_turnover_lc
+    //      , "sql_dwd_thirdly_turnover_shaba" -> sql_dwd_thirdly_turnover_shaba
+    //      , "sql_dwd_thirdly_transactions" -> sql_dwd_thirdly_transactions
+    //    )
+    //    ThreadPoolUtils.executeMap(map, conn, "doris_thirdly")
+    //
+    //    val map1hz0: Map[String, String] = Map(
+    //      "sql_dwd_thirdly_transactions_1hz" -> sql_dwd_thirdly_transactions_1hz
+    //      , "sql_dwd_thirdly_turnover_1hz" -> sql_dwd_thirdly_turnover_1hz
+    //    )
+    //    ThreadPoolUtils.executeMap(map1hz0, conn, "doris_thirdly")
 
     val end = System.currentTimeMillis()
     logger.info("1hz 站 三方数据归一累计耗时(毫秒):" + (end - start))
