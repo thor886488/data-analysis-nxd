@@ -20,6 +20,7 @@ object OdsSynData1HZ {
          |INSERT INTO ods_1hz_users
          |SELECT '1HZ' site_code,userid,username,loginpwd_salt,securitypwd,securitypwd_salt,usertype,nickname,language,skin,email,email_old,authtoparent,addcount,authadd,lastip,lasttime,registerip,registertime,userrank,rankcreatetime,rankupdate,question_id_1,define_question_1,answer_1,question_id_2,define_question_2,answer_2,keeppoint,blockuser,errorcount,lasterrtime,isdeleted,loginpswupdatetime,securitypswupdatetime,lpwd,spwd,isurlreg,url_reg_id
          |from  syn_mysql_1hz_users
+         |where  (registertime>='$startTime' and  registertime<=date_add('$endTime',1))  or  (lasttime>='$startTime' and  lasttime<=date_add('$endTime',1))
          |""".stripMargin
     val sql_ods_1hz_usertree =
       s"""
