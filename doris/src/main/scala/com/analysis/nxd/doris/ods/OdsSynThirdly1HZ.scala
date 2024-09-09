@@ -39,7 +39,7 @@ object OdsSynThirdly1HZ {
          |insert  into ods_1hz_game_records_gemini
          |select id,'1HZ' site_code,'GEMINI'  thirdly_code,bill_no,account,game_type,game_code,group_type,bet_type,bet_amount,item_amount,turnover,won_amount,win_lose,bill_status,bet_time,reckon_time,play_type,currency,created_at,updated_at
          |from  syn_1hz_game_records_gemini
-         |where (transaction_time>='$startTime' and  transaction_time<='$endTime')
+         |where (reckon_time>='$startTime' and  reckon_time<='$endTime')
          |""".stripMargin
 
     JdbcUtils.executeSyn1HZ(conn, "use doris_thirdly", "use doris_thirdly")
