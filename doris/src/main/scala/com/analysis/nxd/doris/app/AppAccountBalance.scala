@@ -25,9 +25,7 @@ object AppAccountBalance {
          | union
          | select data_syn_time,site_code,thirdly_code, user_id,ifnull(balance,0) balance,ifnull(non_cashable_balance,0) frozen,ifnull(free_balance,0) available from doris_thirdly.ods_1hz_game_users_all_log  where  thirdly_code='AG' and  (data_syn_time>='$startTime' and data_syn_time<='$endTime')
          | union
-         | select data_syn_time,site_code,thirdly_code, user_id,ifnull(free_balance,0) balance,ifnull(non_cashable_balance,0) frozen,ifnull(free_balance,0) available from doris_thirdly.ods_1hz_game_users_all_log  where  thirdly_code='LC' and  (data_syn_time>='$startTime' and data_syn_time<='$endTime')
-         | union
-         | select data_syn_time,site_code,thirdly_code, user_id,ifnull(free_balance,0) balance,ifnull(non_cashable_balance,0) frozen,ifnull(free_balance,0) available from doris_thirdly.ods_1hz_game_users_all_log  where  thirdly_code='SHABA' and  (data_syn_time>='$startTime' and data_syn_time<='$endTime')
+         | select data_syn_time,site_code,thirdly_code, user_id,ifnull(free_balance,0) balance,ifnull(non_cashable_balance,0) frozen,ifnull(free_balance,0) available from doris_thirdly.ods_1hz_game_users_all_log  where  thirdly_code <>'AG'  and  (data_syn_time>='$startTime' and data_syn_time<='$endTime')
          |) t
          |) t
          |join (select site_code,userid,username from doris_dt.ods_1hz_usertree where istester=0) u on t.site_code=u.site_code and t.user_id=u.userid
