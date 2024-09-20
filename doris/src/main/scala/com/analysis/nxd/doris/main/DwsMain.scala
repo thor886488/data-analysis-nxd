@@ -28,7 +28,9 @@ object DwsMain {
     }
     logger.warn(s" startTime : '$startTime'  , endTime '$endTime', isDeleteData '$isDeleteData'")
     val conn: Connection = JdbcUtils.getConnection()
-
+    DwdUnifyData.runFirstData(site_code, startTime, endTime, isDeleteData, conn)
+    DwsHourKpi.runData(site_code, startTime, endTime, isDeleteData, conn)
+    DwsDayKpi.runData(site_code, startTime, endTime, isDeleteData, conn)
     JdbcUtils.execute(conn, "use doris_dt", "use doris_dt")
 
 
