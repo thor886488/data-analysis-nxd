@@ -296,9 +296,9 @@ object OdsSynThirdlyFH4 {
     JdbcUtils.execute(conn, "sql_ods_fh4_pt_game_list", sql_ods_fh4_pt_game_list)
     JdbcUtils.execute(conn, "sql_ods_fh4_gns_game_list", sql_ods_fh4_gns_game_list)
 
-    val sql_id_max_value_collect_thirdly_bet_record = s"select  max(seq_id) minIndex  from  syn_oracle_fh4_collect_thirdly_bet_record "
-    val minIndexCollect = JdbcUtils.getMinIndex("FH4", conn, "sql_id_max_value_collect_thirdly_bet_record", sql_id_max_value_collect_thirdly_bet_record)
-    JdbcUtils.execute(conn, "sql_ods_fh4_collect_thirdly_bet_record", sql_ods_fh4_collect_thirdly_bet_record.replace("seq_id_min_value", (minIndexCollect - 500000) + ""))
+//    val sql_id_max_value_collect_thirdly_bet_record = s"select  max(seq_id) minIndex  from  syn_oracle_fh4_collect_thirdly_bet_record "
+//    val minIndexCollect = JdbcUtils.getMinIndex("FH4", conn, "sql_id_max_value_collect_thirdly_bet_record", sql_id_max_value_collect_thirdly_bet_record)
+//    JdbcUtils.execute(conn, "sql_ods_fh4_collect_thirdly_bet_record", sql_ods_fh4_collect_thirdly_bet_record.replace("seq_id_min_value", (minIndexCollect - 500000) + ""))
 
     val sql_id_min_value_pg = s"select  max(seq_id) minIndex  from  ods_fh4_pg_thirdly_bet_record where tripartite_gmt8_bet_time>=date_add('$startTime',-60)  and  tripartite_gmt8_bet_time<= '$startTime'  "
     val sql_id_min_value_yb = s"select  max(id) minIndex  from  ods_fh4_yb_thirdly_bet_record  where created_at8>=date_add('$startTime',-60)   and  created_at8<= '$startTime'  "
@@ -381,7 +381,7 @@ object OdsSynThirdlyFH4 {
 
     val sql_syn_oracle_fh4_collect_thirdly_bet_record = s"select   count(1) countData  from sql_syn_oracle_fh4_collect_thirdly_bet_record where  thirdly_create_date>='$startTime' and  thirdly_create_date<='$endTime'"
     val sql_ods_fh4_collect_thirdly_bet_record = s"select   count(1) countData  from sql_ods_fh4_collect_thirdly_bet_record where  thirdly_create_date>='$startTime' and  thirdly_create_date<='$endTime'"
-    VerifyDataUtils.verifyData("sql_ods_fh4_collect_thirdly_bet_record", sql_syn_oracle_fh4_collect_thirdly_bet_record, sql_ods_fh4_collect_thirdly_bet_record, conn)
+  //  VerifyDataUtils.verifyData("sql_ods_fh4_collect_thirdly_bet_record", sql_syn_oracle_fh4_collect_thirdly_bet_record, sql_ods_fh4_collect_thirdly_bet_record, conn)
 
   }
 
