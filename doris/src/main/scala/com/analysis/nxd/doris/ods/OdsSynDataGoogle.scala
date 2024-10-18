@@ -11,20 +11,20 @@ object OdsSynDataGoogle {
   def runData(startTimeP: String, endTimeP: String, isDeleteData: Boolean, dorisConn: Connection, mysqlConn: Connection): Unit = {
     JdbcUtils.execute(dorisConn, "use doris_thirdly", "use doris_thirdly")
     //FH4 ag 配置云文档
-    val listAgConf = GoogleSheetsUtils.readGoogleSheet("10Or-8Bu3ckEbY3pRDw5AZo7Ea21LRUzXngwUbhmvV4U", "FH4-AG游戏分类!A2:B");
+    val listAgConf = GoogleSheetsUtils.readGoogleSheet("1cnpNmQaj1MeeqT1jArWU5VNklABRYeFkxrHp59C6bog", "FH4-AG游戏分类!A2:B");
     JdbcUtils.executeList(dorisConn, mysqlConn, "ods_fh4_ag_conf", listAgConf)
 
     //三方字段-帐变公式
-    val listTranThird = GoogleSheetsUtils.readGoogleSheet("14e-65q0sndL9vtAC-Ca7jsTA2oWeDKsznBmz4vTvQOs", "工作表1!A2:F", null, "site_code,type_code,type_name,paren_type_code,paren_type_name,thirdly_code", null)
+    val listTranThird = GoogleSheetsUtils.readGoogleSheet("1gY_bhzMyyRF4sfWUJ_uIVpyW2nqYbHLtY90UZ9NoveE", "工作表1!A2:F", null, "site_code,type_code,type_name,paren_type_code,paren_type_name,thirdly_code", null)
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_thirdly_transaction_types", listTranThird)
 
     //  三方类型配置表
-    val list3rdKindnameConf = GoogleSheetsUtils.readGoogleSheet("1b4o10K9BQDpeORJ1FLtl-oj-neayXna7vb4mLSCj2fM", "工作表1!A2:D", null, "site_code,thirdly_code,game_code,kind_name", null)
+    val list3rdKindnameConf = GoogleSheetsUtils.readGoogleSheet("1janmcX_IjRh9togF85126sI9kfUEN8oxmVlsxCUEEP0", "工作表1!A2:D", null, "site_code,thirdly_code,game_code,kind_name", null)
     JdbcUtils.executeList(dorisConn, mysqlConn, "app_thirdly_kind_conf", list3rdKindnameConf)
 
 
-    // gp1.5 计算公式表
-    val listGp15Thirdly = GoogleSheetsUtils.readGoogleSheet("1CuOUbXdyAgZo5UchL1wQBRlfVdR8gskWKdUD0uIHn_w", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
+    // 三方 gp1.5 计算公式表
+    val listGp15Thirdly = GoogleSheetsUtils.readGoogleSheet("1gY_bhzMyyRF4sfWUJ_uIVpyW2nqYbHLtY90UZ9NoveE", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_third_transaction_types_gp1_5", listGp15Thirdly)
     val sql_dwd_third_transaction_types_gp1_5_1hz0 =
       """
@@ -33,8 +33,8 @@ object OdsSynDataGoogle {
         |""".stripMargin
     JdbcUtils.execute(dorisConn, "sql_dwd_third_transaction_types_gp1_5_1hz0", sql_dwd_third_transaction_types_gp1_5_1hz0)
 
-    // gp2 计算公式表
-    val listGp2Thirdly = GoogleSheetsUtils.readGoogleSheet("115Nwn5xMvdmwEt8wG2EtiwlXjhF9i1-fFv8CPLt6zbw", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
+    // 三方 gp2 计算公式表
+    val listGp2Thirdly = GoogleSheetsUtils.readGoogleSheet("1ae-uu113sZP7Qz7NOG_4zoef81VUFowHULXECskoBPo", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_third_transaction_types_gp2", listGp2Thirdly)
     val sql_dwd_third_transaction_types_gp2 =
       """
@@ -50,12 +50,12 @@ object OdsSynDataGoogle {
     JdbcUtils.execute(dorisConn, "sql_dwd_third_transaction_types_gp2_1hz0", sql_dwd_third_transaction_types_gp2_1hz0)
 
     //  GCP表導入_BM_3rd
-    //   val listGCP3rdBMmonth = GoogleSheetsUtils.readGoogleSheet("1AAC8l5jeD45bZa4deqBrmyP5GDuPrbqqBjAUu33QEWQ", "bm_by_month!A1:L", null, "USER_ID,USER_NAME,TRUNC_YMD__MM__,SUM_BET_AMT_,SUM_PRIZE_AMT_,SUM_COMMISSION_AMT_,SUM_REBATE_AMT_,SUM_PROMOTION_AMT_,SUM_INCENT_AMT_,SUM_COMMISSION_AMT__1,SUM_RECHARGE_AMT_,SUM_WITHDRAW_AMT_", null);
-    //   JdbcUtils.executeList(dorisConn, mysqlConn, "obi_bm_third_month", listGCP3rdBMmonth)
+    // val listGCP3rdBMmonth = GoogleSheetsUtils.readGoogleSheet("1n5jH3ZXXnPxtPZh8tzrwDabHw7Or0KGtwh2qsu6lDLc", "风险用户名单!A1:L", null, "USER_ID,USER_NAME,TRUNC_YMD__MM__,SUM_BET_AMT_,SUM_PRIZE_AMT_,SUM_COMMISSION_AMT_,SUM_REBATE_AMT_,SUM_PROMOTION_AMT_,SUM_INCENT_AMT_,SUM_COMMISSION_AMT__1,SUM_RECHARGE_AMT_,SUM_WITHDRAW_AMT_", null);
+    // JdbcUtils.executeList(dorisConn, mysqlConn, "obi_bm_third_month", listGCP3rdBMmonth)
 
     JdbcUtils.execute(dorisConn, "use doris_dt", "use doris_dt")
     // 彩种统一名称配置
-    val listLotteryConf = GoogleSheetsUtils.readGoogleSheet("1OLPxSWzIySbQsx-W4PPLf6n7qmFs-ce4n_ruN3KHYnY", "EC采种名称用!A2:U", null, "site_code,lottery_code,series_code,series_name,lottery_name,lottery_name_cn,lottery_type,lottery_type_name,series_type,is_self,is_high,link,monitor,bm_type_name,bm_type_code,bm_kind_name,bm_kind_code,lottery_name_nac,link_1,nac_code,update_time", null);
+    val listLotteryConf = GoogleSheetsUtils.readGoogleSheet("1qM7dhF4Rm2rzpZj_0FUxP0iDB4wDnswYy1ftt-9MQYY", "EC采种名称用!A2:U", null, "site_code,lottery_code,series_code,series_name,lottery_name,lottery_name_cn,lottery_type,lottery_type_name,series_type,is_self,is_high,link,monitor,bm_type_name,bm_type_code,bm_kind_name,bm_kind_code,lottery_name_nac,link_1,nac_code,update_time", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "ods_lottery_conf", listLotteryConf)
     val sql_ods_lottery_conf_1hz0 =
       """
@@ -103,7 +103,7 @@ object OdsSynDataGoogle {
     JdbcUtils.execute(dorisConn, "sql_ods_lottery_conf_un_know", sql_ods_lottery_conf_un_know)
 
     // 代理统一表
-    val listAgentConf = GoogleSheetsUtils.readGoogleSheet("1x9O1qt4AfoZJ3mZ-RDsMD8DrpxYHQeebnWtIuIca9Qw", "各站点总代名单!A2:H", null, "data_month,site_code,agent_0,agent_group,dep,supervisor,supervision,is_self", null);
+    val listAgentConf = GoogleSheetsUtils.readGoogleSheet("1c8ffyNAweFbyA0wdSnotyac0Jklu_PWqK_MOMYKw8XY", "各站点总代名单!A2:H", null, "data_month,site_code,agent_0,agent_group,dep,supervisor,supervision,is_self", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "ods_agent_month_conf", listAgentConf)
 
     val endMonth = DateUtils.getFirstDayOfMonth(DateUtils.getSysFullDate)
@@ -167,10 +167,10 @@ object OdsSynDataGoogle {
 
 
     // 账变表
-    val listTransactionTypes = GoogleSheetsUtils.readGoogleSheet("1yPUPpbB0Dx-IvxGJJFATZegXcktTWHzesV0_cUMDf9Q", "各站新增帐变列表!A2:E", null, "site_code,type_code,type_name,pm_available,description", null);
-    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_transaction_types", listTransactionTypes)
+    // val listTransactionTypes = GoogleSheetsUtils.readGoogleSheet("1JcXWZG_uGD074EHPTmf7H4guSsxr5mdQ", "各站新增帐变列表!A2:E", null, "site_code,type_code,type_name,pm_available,description", null);
+    // JdbcUtils.executeList(dorisConn, mysqlConn, "ods_transaction_types", listTransactionTypes)
 
-    val listTran = GoogleSheetsUtils.readGoogleSheet("1fvAuZg2RfQerU91V7oiUMOLppD1Wpgn9A4K6mz0W4aU", "工作表1!A2:E", null, "site_code,type_code,type_name,paren_type_code,paren_type_name", null)
+    val listTran = GoogleSheetsUtils.readGoogleSheet("1mwVgYd0-f7KHHX6c_wmWLh69jZNCSiNzGxTWvk0AQTY", "工作表1!A2:E", null, "site_code,type_code,type_name,paren_type_code,paren_type_name", null)
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_transaction_types_parent", listTran)
 
     // 风险用户表
@@ -178,7 +178,7 @@ object OdsSynDataGoogle {
     // JdbcUtils.executeList(dorisConn, mysqlConn, "ods_user_risk", listUserRisk)
 
     // 代理总费用 计算公式表
-    val listAgentCost = GoogleSheetsUtils.readGoogleSheet("1cKroThVH6NJJgQPCaBdcpAUkoFuD8F2kWaXezu87Fwo", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
+    val listAgentCost = GoogleSheetsUtils.readGoogleSheet("1coHDXMIqpvN0b0Hn8hSr6P0mSWzlMWJuK1cLw49nq5E", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_transaction_types_agent_cost", listAgentCost)
 
     val sql_dwd_transaction_types_agent_cost_1hz0 =
@@ -189,7 +189,7 @@ object OdsSynDataGoogle {
     JdbcUtils.execute(dorisConn, "sql_dwd_transaction_types_agent_cost_1hz0", sql_dwd_transaction_types_agent_cost_1hz0)
 
     // gp1.5 计算公式表
-    val listGp15 = GoogleSheetsUtils.readGoogleSheet("1FLiCX7V5Oy3_JoHhgrinTA0ElNMOy3v5XGaTJDb9hbA", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
+    val listGp15 = GoogleSheetsUtils.readGoogleSheet("1czyBLJjyaz-s_qyM4ayMrWVtYQDbyyGLHJZl0dGPR8I", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_transaction_types_gp1_5", listGp15)
     val sql_dwd_transaction_types_gp1_5_1hz0 =
       """
@@ -199,7 +199,7 @@ object OdsSynDataGoogle {
     JdbcUtils.execute(dorisConn, "sql_dwd_transaction_types_gp1_5_1hz0", sql_dwd_transaction_types_gp1_5_1hz0)
 
     // gp2 计算公式表
-    val listGp2 = GoogleSheetsUtils.readGoogleSheet("1qyInjoBhH4HTVazjLVI68UjQUhv3qGv5j8bxvBNtJO0", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
+    val listGp2 = GoogleSheetsUtils.readGoogleSheet("13mH8JvhsrPT8hfjFaMHK7MVk2VT9Vp2Q0bUYOlmJQhU", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_transaction_types_gp2", listGp2)
     val sql_dwd_transaction_types_gp2 =
       """
@@ -217,7 +217,10 @@ object OdsSynDataGoogle {
   }
 
   def main(args: Array[String]): Unit = {
-    val listAgentConf = GoogleSheetsUtils.readGoogleSheet("1x9O1qt4AfoZJ3mZ-RDsMD8DrpxYHQeebnWtIuIca9Qw", "各站点总代名单!A2:H", null, "data_month,site_code,site_code,agent_0,agent_group,dep,supervisor,supervision,is_self", null);
+
+    // -- 已替换
+
+    val listGp2 = GoogleSheetsUtils.readGoogleSheet("13mH8JvhsrPT8hfjFaMHK7MVk2VT9Vp2Q0bUYOlmJQhU", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
 
   }
 
