@@ -167,8 +167,8 @@ object OdsSynDataGoogle {
 
 
     // 账变表
-    // val listTransactionTypes = GoogleSheetsUtils.readGoogleSheet("1JcXWZG_uGD074EHPTmf7H4guSsxr5mdQ", "各站新增帐变列表!A2:E", null, "site_code,type_code,type_name,pm_available,description", null);
-    // JdbcUtils.executeList(dorisConn, mysqlConn, "ods_transaction_types", listTransactionTypes)
+    val listTransactionTypes = GoogleSheetsUtils.readGoogleSheet("1YkdkFqx_SWjZK8IywDIo9GFH7LhoikZvtusfUJRE8uY", "各站新增帐变列表!A2:E", null, "site_code,type_code,type_name,pm_available,description", null);
+    JdbcUtils.executeList(dorisConn, mysqlConn, "ods_transaction_types", listTransactionTypes)
 
     val listTran = GoogleSheetsUtils.readGoogleSheet("1mwVgYd0-f7KHHX6c_wmWLh69jZNCSiNzGxTWvk0AQTY", "工作表1!A2:E", null, "site_code,type_code,type_name,paren_type_code,paren_type_name", null)
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_transaction_types_parent", listTran)
