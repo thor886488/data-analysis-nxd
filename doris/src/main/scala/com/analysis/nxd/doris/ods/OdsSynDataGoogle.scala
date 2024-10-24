@@ -24,7 +24,7 @@ object OdsSynDataGoogle {
 
 
     // 三方 gp1.5 计算公式表
-    val listGp15Thirdly = GoogleSheetsUtils.readGoogleSheet("1gY_bhzMyyRF4sfWUJ_uIVpyW2nqYbHLtY90UZ9NoveE", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
+    val listGp15Thirdly = GoogleSheetsUtils.readGoogleSheet("1r2NX6jOPTOqx4kSv50Jcb1lGJDBo015KmRttwmEZ8B8", "工作表1!A2:C", null, "site_code,type_code,type_name", null);
     JdbcUtils.executeList(dorisConn, mysqlConn, "dwd_third_transaction_types_gp1_5", listGp15Thirdly)
     val sql_dwd_third_transaction_types_gp1_5_1hz0 =
       """
