@@ -34,7 +34,7 @@ object OdsAppMain {
       }
     }
     if (isDeleteData && args.length <= 2) {
-      startFH4OdsTime = DateUtils.addSecond(startTime, -3600 * 24 * 10)
+      startFH4OdsTime = DateUtils.addSecond(startTime, -3600 * 24 * 20)
       startTime = startFH4OdsTime
     }
     if (args.length >= 4) {
