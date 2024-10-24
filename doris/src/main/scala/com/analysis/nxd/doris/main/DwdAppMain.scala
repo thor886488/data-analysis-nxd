@@ -33,7 +33,7 @@ object DwdAppMain {
         || (hour == 2 && ("BM".equals(site_code) || "2HZN".equals(site_code) || "MIFA".equals(site_code)))
     ) {
       isDeleteData = true
-      startFH4OdsTime = DateUtils.addSecond(startTime, -3600 * 24 * 5)
+      startFH4OdsTime = DateUtils.addSecond(startTime, -3600 * 24 * 25)
       startTime = startFH4OdsTime
     }
 
