@@ -12,7 +12,7 @@ object NecMain {
 
   def main(args: Array[String]): Unit = {
     // 开始时间,结束时间,是否删除数据重新跑
-    var startTime = DateUtils.addDay(DateUtils.getStartDate(), -30) + " 00:00:00";
+    var startTime = DateUtils.addDay(DateUtils.getStartDate(), -10) + " 00:00:00";
     var endTime = DateUtils.getEndDate()
     var isDeleteData = false
     var site_code: String = null;
