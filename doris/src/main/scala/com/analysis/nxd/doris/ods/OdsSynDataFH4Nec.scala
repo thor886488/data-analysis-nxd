@@ -32,7 +32,6 @@ object OdsSynDataFH4Nec {
          |insert  into  ods_nec_nac_lottery
          |SELECT  'FH4' site_code,lottery_code,id,lottery_name,status,winning_number_format,draw_date,draw_time,frequency,open_number_time,modified_time,created_time,lottery_series,stop_receive_time,using_algorithm
          |from  syn_nec_nac_lottery
-         |where  (modified_time>='$startTime' and  modified_time<='$endTime')
          |""".stripMargin
 
     val sql_ods_nec_nac_merchant_lottery =
@@ -40,7 +39,6 @@ object OdsSynDataFH4Nec {
          |insert  into  ods_nec_nac_merchant_lottery
          |SELECT  'FH4' site_code,merchant_id,lottery_code,status,expected_value,upper_limit,lower_limit,daily_sales,theory_ratio,create_time,modify_time,lottery_name,order_lead_in_seconds,order_end_in_seconds
          |from  syn_nec_nac_merchant_lottery
-         |where  (modify_time>='$startTime' and  modify_time<='$endTime')
          |""".stripMargin
 
     val sql_ods_nec_nac_mmc_bet_record =
@@ -50,6 +48,7 @@ object OdsSynDataFH4Nec {
          |from  syn_nec_nac_mmc_bet_record
          |where  (bet_time>='$startTime' and  bet_time<='$endTime')
          |""".stripMargin
+
     val sql_ods_nec_nac_open_record =
       s"""
          |insert  into  ods_nec_nac_open_record
@@ -57,13 +56,13 @@ object OdsSynDataFH4Nec {
          |from  syn_nec_nac_open_record
          |where  (open_number_time>='$startTime' and  open_number_time<='$endTime')
          |""".stripMargin
+
     val sql_ods_nec_nac_user =
       s"""
          |INSERT  INTO  ods_nec_nac_user
          |SELECT  'FH4' site_code,id,username  ,user_status,expected_value,upper_limit,lower_limit,daily_sales,authorities,PASSWORD,app_id,app_key,ip_whitelist,create_time,modify_time,theory_ratio,top_agency
          |,IF(LOCATE('-',username)>0,split_part(username,'-',1),'NULL') AS username2,IF(LOCATE('-',username)>0,split_part(username,'-',2),username) AS username
          |FROM  syn_nec_nac_user
-         |where  (modify_time>='$startTime' and  modify_time<='$endTime')
          |""".stripMargin
     val start = System.currentTimeMillis()
     JdbcUtils.execute(conn, "use doris_dt", "use doris_dt")
