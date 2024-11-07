@@ -615,7 +615,7 @@ object DwdUnifyDataYft {
          |,t.amount apply_amount
          |,date_sub(t.audit_date_time, INTERVAL 3 HOUR)
          |,null appr2_time
-         |,(unix_timestamp(t.audit_date_time)- unix_timestamp(t.create_date) )  as  appr_used_time
+         |,if(audit_date_time is  null ,0,(unix_timestamp(t.audit_date_time)- unix_timestamp(t.create_date) ))  as  appr_used_time
          |,t.remit_date_time withdraw_time
          |,null  withdraw_ip
          |,null  withdraw_platfom
@@ -625,7 +625,7 @@ object DwdUnifyDataYft {
          |,0 auditor_id
          |,audit_op auditor
          |,fee withdraw_fee
-         |,(unix_timestamp(t.remit_date_time)- unix_timestamp(t.create_date) )  as withdraw_used_time
+         |,if(remit_date_time is null,0,(unix_timestamp(t.remit_date_time)- unix_timestamp(t.create_date) ))  as withdraw_used_time
          |,split_part(t_u.user_chain_names, '/', 2)  top_parent_username
          |,t_u.is_agent
          |,t_u.is_tester

@@ -457,7 +457,7 @@ object DwdUnifyData1HZ {
          |,dealing_user_id
          |,dealing_user_name
          |,fee withdraw_fee
-         |,(unix_timestamp(pay_time)- unix_timestamp(t.accepttime) )  as withdraw_used_time
+         |,if(pay_time='0000-00-00 00:00:00',0,(unix_timestamp(pay_time)- unix_timestamp(t.accepttime) ))   as withdraw_used_time
          |,split_part(t_u.user_chain_names, '/', 2)  top_parent_username
          |,t_u.is_agent
          |,t_u.is_tester
