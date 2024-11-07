@@ -445,9 +445,9 @@ object DwdUnifyData1HZ {
          |,t.transno
          |,t.status status
          |,t.amount apply_amount
-         |,if(t.v_time='0000-00-00 00:00:00',null,v_time)  v_time
+         |,if(t.v_time='0000-00-00 00:00:00',null,v_time)  appr_time
          |,null appr2_time
-         |,(unix_timestamp(t.v_time)- unix_timestamp(t.accepttime) )  as  appr_used_time
+         |,if(t.v_time='0000-00-00 00:00:00',0,(unix_timestamp(t.v_time)- unix_timestamp(t.accepttime) ))  as  appr_used_time
          |,if(t.pay_time='0000-00-00 00:00:00',null,pay_time)   withdraw_time
          |,t.clientip  withdraw_ip
          |,null  withdraw_platfom
