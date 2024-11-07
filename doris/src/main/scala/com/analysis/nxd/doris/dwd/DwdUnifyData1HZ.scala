@@ -485,7 +485,7 @@ object DwdUnifyData1HZ {
     val sql_dwd_withdraw_1hz =
       s"""
          |insert  into dwd_withdraw
-         |select date_sub(apply_time, INTERVAL 6 HOUR)  apply_time,'1HZ' site_code,user_id,username,id,sn,status,apply_amount,date_sub(appr_time, INTERVAL 6 HOUR)   appr_time,date_sub(appr2_time, INTERVAL 6 HOUR) appr2_time,date_sub(appr_used_time, INTERVAL 6 HOUR) appr_used_time,date_sub(withdraw_time, INTERVAL 6 HOUR) withdraw_time,withdraw_ip,withdraw_platfom,withdraw_channel,withdraw_mode,withdraw_amount,auditor_id,auditor_name,withdraw_fee_amount,withdraw_used_time,top_parent_username,is_agent,is_tester,parent_id,parent_username,user_chain_names,user_level,date_sub(updated_at, INTERVAL 6 HOUR)   updated_at
+         |select date_sub(apply_time, INTERVAL 6 HOUR)  apply_time,'1HZ' site_code,user_id,username,id,sn,status,apply_amount,date_sub(appr_time, INTERVAL 6 HOUR)   appr_time,date_sub(appr2_time, INTERVAL 6 HOUR) appr2_time,appr_used_time,date_sub(withdraw_time, INTERVAL 6 HOUR) withdraw_time,withdraw_ip,withdraw_platfom,withdraw_channel,withdraw_mode,withdraw_amount,auditor_id,auditor_name,withdraw_fee_amount,withdraw_used_time,top_parent_username,is_agent,is_tester,parent_id,parent_username,user_chain_names,user_level,date_sub(updated_at, INTERVAL 6 HOUR)   updated_at
          |from  dwd_withdraw
          |where (apply_time>='$startTime' and  apply_time<='$endTime')
          |and site_code='1HZ0'
