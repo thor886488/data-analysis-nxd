@@ -136,7 +136,7 @@ object OdsSynDataYft {
     val sql_ods_yft_withdraw_record =
       s"""
          |insert  into  ods_yft_withdraw_record
-         |select  date_add(create_date,interval 5  hour) create_date_dt,'SITE_CODE_VALUE'  site_code,uid,wd_order_no,icon_url,bank_name,bank_user_name,bank_card,amount,remark,balance,withdraw_status,audit_op,remit_op,if(remit_date_time is null,null,convert_tz(audit_date_time,'+00:00','+08:00')) audit_date_time, if(remit_date_time is null,null, convert_tz(remit_date_time,'+00:00','+08:00')) remit_date_time,convert_tz(create_date,'+00:00','+08:00') create_date, convert_tz(update_date,'+00:00','+08:00') update_date,english_name,subbranch_name,fee,usdt_rate
+         |select  date_add(create_date,interval 5  hour) create_date_dt,'SITE_CODE_VALUE'  site_code,uid,wd_order_no,icon_url,bank_name,bank_user_name,bank_card,amount,remark,balance,withdraw_status,audit_op,remit_op,if(audit_date_time is null,null,convert_tz(audit_date_time,'+00:00','+08:00')) audit_date_time, if(remit_date_time is null,null, convert_tz(remit_date_time,'+00:00','+08:00')) remit_date_time,convert_tz(create_date,'+00:00','+08:00') create_date, convert_tz(update_date,'+00:00','+08:00') update_date,english_name,subbranch_name,fee,usdt_rate
          |from syn_pg_site_table_code_value_withdraw_record
          | where  (create_date >=  '$startUpdateTime' and  create_date < '$endTime')
          |""".stripMargin
